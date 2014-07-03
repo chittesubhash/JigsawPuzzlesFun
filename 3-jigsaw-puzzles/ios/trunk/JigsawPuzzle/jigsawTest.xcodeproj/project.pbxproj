@@ -163,6 +163,12 @@
 		8428E1AE195D6F5300BFCAF2 /* PuzzleGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428E1AA195D6F5300BFCAF2 /* PuzzleGrid.m */; };
 		8428E1B1195D6FA000BFCAF2 /* LevelEasyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428E1B0195D6FA000BFCAF2 /* LevelEasyLayer.m */; };
 		8428E339195D840300BFCAF2 /* PuzzleSelectionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428E338195D840300BFCAF2 /* PuzzleSelectionLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		842ECDE2196539FB006E6131 /* Thumbnail_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDC196539FB006E6131 /* Thumbnail_1.png */; };
+		842ECDE3196539FB006E6131 /* Thumbnail_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDD196539FB006E6131 /* Thumbnail_2.png */; };
+		842ECDE4196539FB006E6131 /* Thumbnail_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDE196539FB006E6131 /* Thumbnail_3.png */; };
+		842ECDE5196539FB006E6131 /* Thumbnail_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDF196539FB006E6131 /* Thumbnail_4.png */; };
+		842ECDE6196539FB006E6131 /* Thumbnail_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDE0196539FB006E6131 /* Thumbnail_5.png */; };
+		842ECDE7196539FB006E6131 /* Thumbnail_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDE1196539FB006E6131 /* Thumbnail_6.png */; };
 		843B25A11962A48C00B87B8D /* background-puzzle-selection_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 843B259F1962A48C00B87B8D /* background-puzzle-selection_5.png */; };
 		843B25A21962A48C00B87B8D /* background-puzzle-selection_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843B25A01962A48C00B87B8D /* background-puzzle-selection_5@2x.png */; };
 		843B25AF1962C22D00B87B8D /* background-gameplay-easy_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 843B25AB1962C22D00B87B8D /* background-gameplay-easy_5.png */; };
@@ -670,6 +676,12 @@
 		8428E1B0195D6FA000BFCAF2 /* LevelEasyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelEasyLayer.m; sourceTree = "<group>"; };
 		8428E337195D840300BFCAF2 /* PuzzleSelectionLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleSelectionLayer.h; sourceTree = "<group>"; };
 		8428E338195D840300BFCAF2 /* PuzzleSelectionLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleSelectionLayer.m; sourceTree = "<group>"; };
+		842ECDDC196539FB006E6131 /* Thumbnail_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_1.png; sourceTree = "<group>"; };
+		842ECDDD196539FB006E6131 /* Thumbnail_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_2.png; sourceTree = "<group>"; };
+		842ECDDE196539FB006E6131 /* Thumbnail_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_3.png; sourceTree = "<group>"; };
+		842ECDDF196539FB006E6131 /* Thumbnail_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_4.png; sourceTree = "<group>"; };
+		842ECDE0196539FB006E6131 /* Thumbnail_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_5.png; sourceTree = "<group>"; };
+		842ECDE1196539FB006E6131 /* Thumbnail_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_6.png; sourceTree = "<group>"; };
 		843B259F1962A48C00B87B8D /* background-puzzle-selection_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-puzzle-selection_5.png"; sourceTree = "<group>"; };
 		843B25A01962A48C00B87B8D /* background-puzzle-selection_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-puzzle-selection_5@2x.png"; sourceTree = "<group>"; };
 		843B25AB1962C22D00B87B8D /* background-gameplay-easy_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-gameplay-easy_5.png"; sourceTree = "<group>"; };
@@ -1423,6 +1435,19 @@
 			path = GameObjects;
 			sourceTree = "<group>";
 		};
+		842ECDDB196539FB006E6131 /* JigSawThumbnailimages */ = {
+			isa = PBXGroup;
+			children = (
+				842ECDDC196539FB006E6131 /* Thumbnail_1.png */,
+				842ECDDD196539FB006E6131 /* Thumbnail_2.png */,
+				842ECDDE196539FB006E6131 /* Thumbnail_3.png */,
+				842ECDDF196539FB006E6131 /* Thumbnail_4.png */,
+				842ECDE0196539FB006E6131 /* Thumbnail_5.png */,
+				842ECDE1196539FB006E6131 /* Thumbnail_6.png */,
+			);
+			path = JigSawThumbnailimages;
+			sourceTree = "<group>";
+		};
 		843CC9791963C9D4007DD713 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
@@ -1522,6 +1547,7 @@
 		84A6328C196274D9000975FA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				842ECDDB196539FB006E6131 /* JigSawThumbnailimages */,
 				8408C06519640F5F009EB399 /* JigSawCuttingImages */,
 				84A6328D196274D9000975FA /* iPad */,
 				84A632FE196274DA000975FA /* iPhone4 */,
@@ -1774,6 +1800,7 @@
 				84A63343196274DA000975FA /* janda-ipadhd.png in Resources */,
 				84A6332C196274DA000975FA /* congrats-eng-hd.png in Resources */,
 				84A6335D196274DA000975FA /* pieces_6x4_bevel-hd.png in Resources */,
+				842ECDE6196539FB006E6131 /* Thumbnail_5.png in Resources */,
 				84A6332B196274DA000975FA /* cloud.png in Resources */,
 				84A6334F196274DA000975FA /* photobg.png in Resources */,
 				844392CB196144A300988F32 /* pieces_8x6-ipadhd.plist in Resources */,
@@ -1855,7 +1882,9 @@
 				84A63364196274DA000975FA /* pieces_8x6.png in Resources */,
 				84A63354196274DA000975FA /* pieces_4x3.png in Resources */,
 				844392C4196144A300988F32 /* pieces_6x4.plist in Resources */,
+				842ECDE3196539FB006E6131 /* Thumbnail_2.png in Resources */,
 				844392C8196144A300988F32 /* pieces_6x4_bevel.plist in Resources */,
+				842ECDE7196539FB006E6131 /* Thumbnail_6.png in Resources */,
 				8428E174195D479000BFCAF2 /* LICENSE_TouchJSON.txt in Resources */,
 				84A6337A19627EBE000975FA /* empty_5.png in Resources */,
 				84A6333B196274DA000975FA /* floor-hd.png in Resources */,
@@ -1901,6 +1930,7 @@
 				84A6333E196274DA000975FA /* floor.png in Resources */,
 				84A63326196274DA000975FA /* cloud-photo-support-front.png in Resources */,
 				84A63346196274DA000975FA /* jigsaw_playing_bg@2x.png in Resources */,
+				842ECDE4196539FB006E6131 /* Thumbnail_3.png in Resources */,
 				8443936B196144A300988F32 /* Woohoo.mp3 in Resources */,
 				844392B7196144A300988F32 /* levelHard.plist in Resources */,
 				844392BA196144A300988F32 /* pieces_4x3-ipad.plist in Resources */,
@@ -1917,6 +1947,7 @@
 				84A63327196274DA000975FA /* cloud-puzzle-support-hd.png in Resources */,
 				84A63330196274DA000975FA /* congrats-esp-hd.png in Resources */,
 				844392BF196144A300988F32 /* pieces_4x3_bevel-ipadhd.plist in Resources */,
+				842ECDE5196539FB006E6131 /* Thumbnail_4.png in Resources */,
 				844392AC196144A300988F32 /* buttons-hd.plist in Resources */,
 				84A63365196274DA000975FA /* pieces_8x6_bevel-hd.png in Resources */,
 				84439363196144A300988F32 /* Opcoes.mp3 in Resources */,
@@ -1930,6 +1961,7 @@
 				843CC97F1963C9D4007DD713 /* README.md in Resources */,
 				84439354196144A300988F32 /* Click.mp3 in Resources */,
 				844392CF196144A300988F32 /* pieces_8x6_bevel-ipadhd.plist in Resources */,
+				842ECDE2196539FB006E6131 /* Thumbnail_1.png in Resources */,
 				84A6331A196274DA000975FA /* bg-stripe-home-ipadhd.png in Resources */,
 				84A63337196274DA000975FA /* congrats-pt.png in Resources */,
 				84A6336D196274DA000975FA /* talele-logo-ipad.png in Resources */,
