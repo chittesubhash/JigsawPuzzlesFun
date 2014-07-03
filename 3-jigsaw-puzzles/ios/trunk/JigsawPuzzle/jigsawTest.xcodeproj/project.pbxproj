@@ -169,6 +169,12 @@
 		842ECDE5196539FB006E6131 /* Thumbnail_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDF196539FB006E6131 /* Thumbnail_4.png */; };
 		842ECDE6196539FB006E6131 /* Thumbnail_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDE0196539FB006E6131 /* Thumbnail_5.png */; };
 		842ECDE7196539FB006E6131 /* Thumbnail_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDE1196539FB006E6131 /* Thumbnail_6.png */; };
+		842ECDEE19653D5F006E6131 /* Letter1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDE819653D5F006E6131 /* Letter1@2x.png */; };
+		842ECDEF19653D5F006E6131 /* Letter2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDE919653D5F006E6131 /* Letter2@2x.png */; };
+		842ECDF019653D5F006E6131 /* Letter3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDEA19653D5F006E6131 /* Letter3@2x.png */; };
+		842ECDF119653D5F006E6131 /* Letter4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDEB19653D5F006E6131 /* Letter4@2x.png */; };
+		842ECDF219653D5F006E6131 /* Letter5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDEC19653D5F006E6131 /* Letter5@2x.png */; };
+		842ECDF319653D5F006E6131 /* Letter6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDED19653D5F006E6131 /* Letter6@2x.png */; };
 		843B25A11962A48C00B87B8D /* background-puzzle-selection_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 843B259F1962A48C00B87B8D /* background-puzzle-selection_5.png */; };
 		843B25A21962A48C00B87B8D /* background-puzzle-selection_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843B25A01962A48C00B87B8D /* background-puzzle-selection_5@2x.png */; };
 		843B25AF1962C22D00B87B8D /* background-gameplay-easy_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 843B25AB1962C22D00B87B8D /* background-gameplay-easy_5.png */; };
@@ -682,6 +688,12 @@
 		842ECDDF196539FB006E6131 /* Thumbnail_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_4.png; sourceTree = "<group>"; };
 		842ECDE0196539FB006E6131 /* Thumbnail_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_5.png; sourceTree = "<group>"; };
 		842ECDE1196539FB006E6131 /* Thumbnail_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_6.png; sourceTree = "<group>"; };
+		842ECDE819653D5F006E6131 /* Letter1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Letter1@2x.png"; sourceTree = "<group>"; };
+		842ECDE919653D5F006E6131 /* Letter2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Letter2@2x.png"; sourceTree = "<group>"; };
+		842ECDEA19653D5F006E6131 /* Letter3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Letter3@2x.png"; sourceTree = "<group>"; };
+		842ECDEB19653D5F006E6131 /* Letter4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Letter4@2x.png"; sourceTree = "<group>"; };
+		842ECDEC19653D5F006E6131 /* Letter5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Letter5@2x.png"; sourceTree = "<group>"; };
+		842ECDED19653D5F006E6131 /* Letter6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Letter6@2x.png"; sourceTree = "<group>"; };
 		843B259F1962A48C00B87B8D /* background-puzzle-selection_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-puzzle-selection_5.png"; sourceTree = "<group>"; };
 		843B25A01962A48C00B87B8D /* background-puzzle-selection_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-puzzle-selection_5@2x.png"; sourceTree = "<group>"; };
 		843B25AB1962C22D00B87B8D /* background-gameplay-easy_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-gameplay-easy_5.png"; sourceTree = "<group>"; };
@@ -904,6 +916,12 @@
 		8408C06519640F5F009EB399 /* JigSawCuttingImages */ = {
 			isa = PBXGroup;
 			children = (
+				842ECDE819653D5F006E6131 /* Letter1@2x.png */,
+				842ECDE919653D5F006E6131 /* Letter2@2x.png */,
+				842ECDEA19653D5F006E6131 /* Letter3@2x.png */,
+				842ECDEB19653D5F006E6131 /* Letter4@2x.png */,
+				842ECDEC19653D5F006E6131 /* Letter5@2x.png */,
+				842ECDED19653D5F006E6131 /* Letter6@2x.png */,
 				8408C06619640F5F009EB399 /* Letter1.png */,
 				8408C07119640F5F009EB399 /* Letter2.png */,
 				8408C07919640F5F009EB399 /* Letter3.png */,
@@ -1779,6 +1797,7 @@
 				84A63373196278FB000975FA /* jigsaw_playing_bg_5.png in Resources */,
 				844392C1196144A300988F32 /* pieces_6x4-hd.plist in Resources */,
 				84A63328196274DA000975FA /* cloud-puzzle-support-ipad.png in Resources */,
+				842ECDF119653D5F006E6131 /* Letter4@2x.png in Resources */,
 				84A63319196274DA000975FA /* bg-stripe-home-ipad.png in Resources */,
 				844392BD196144A300988F32 /* pieces_4x3_bevel-hd.plist in Resources */,
 				843B25A11962A48C00B87B8D /* background-puzzle-selection_5.png in Resources */,
@@ -1914,6 +1933,7 @@
 				84A63304196274DA000975FA /* back-button.png in Resources */,
 				84A63325196274DA000975FA /* cloud-photo-support-front-ipadhd.png in Resources */,
 				84A63355196274DA000975FA /* pieces_4x3_bevel-hd.png in Resources */,
+				842ECDF019653D5F006E6131 /* Letter3@2x.png in Resources */,
 				84A63315196274DA000975FA /* bg-homescreen.png in Resources */,
 				84A63367196274DA000975FA /* pieces_8x6_bevel-ipadhd.png in Resources */,
 				84A63317196274DA000975FA /* bg-puzzle.png in Resources */,
@@ -1922,14 +1942,17 @@
 				84A63321196274DA000975FA /* cloud-ipad.png in Resources */,
 				84A6335C196274DA000975FA /* pieces_6x4.png in Resources */,
 				844392CD196144A300988F32 /* pieces_8x6_bevel-hd.plist in Resources */,
+				842ECDF319653D5F006E6131 /* Letter6@2x.png in Resources */,
 				84A6331F196274DA000975FA /* buttons.png in Resources */,
 				84439355196144A300988F32 /* Comecar.mp3 in Resources */,
+				842ECDEE19653D5F006E6131 /* Letter1@2x.png in Resources */,
 				84A63306196274DA000975FA /* background-gameplay-easy@2x.png in Resources */,
 				843B25B91962C41700B87B8D /* empty_4.png in Resources */,
 				84A63360196274DA000975FA /* pieces_6x4_bevel.png in Resources */,
 				84A6333E196274DA000975FA /* floor.png in Resources */,
 				84A63326196274DA000975FA /* cloud-photo-support-front.png in Resources */,
 				84A63346196274DA000975FA /* jigsaw_playing_bg@2x.png in Resources */,
+				842ECDEF19653D5F006E6131 /* Letter2@2x.png in Resources */,
 				842ECDE4196539FB006E6131 /* Thumbnail_3.png in Resources */,
 				8443936B196144A300988F32 /* Woohoo.mp3 in Resources */,
 				844392B7196144A300988F32 /* levelHard.plist in Resources */,
@@ -1948,6 +1971,7 @@
 				84A63330196274DA000975FA /* congrats-esp-hd.png in Resources */,
 				844392BF196144A300988F32 /* pieces_4x3_bevel-ipadhd.plist in Resources */,
 				842ECDE5196539FB006E6131 /* Thumbnail_4.png in Resources */,
+				842ECDF219653D5F006E6131 /* Letter5@2x.png in Resources */,
 				844392AC196144A300988F32 /* buttons-hd.plist in Resources */,
 				84A63365196274DA000975FA /* pieces_8x6_bevel-hd.png in Resources */,
 				84439363196144A300988F32 /* Opcoes.mp3 in Resources */,
