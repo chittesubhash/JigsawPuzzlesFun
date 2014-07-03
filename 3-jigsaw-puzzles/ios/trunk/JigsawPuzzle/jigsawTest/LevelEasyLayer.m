@@ -48,7 +48,6 @@
 
     [self initBackground];
     
-    NSLog(@"jhvjhjh:: %@", newImage);
     if(newImage != (id)[NSNull null])
     {
         [self loadPuzzleImage:newImage];

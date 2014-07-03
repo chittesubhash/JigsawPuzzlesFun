@@ -513,7 +513,7 @@
     
     [scrollView removeFromSuperview];
 
-    int pos = sender.tag % 14;
+    int pos = sender.tag % 6;
     NSLog(@"**Pos = %d", pos);
     
     NSString *buttonStatus = (__bridge NSString *)sender.observationInfo;
