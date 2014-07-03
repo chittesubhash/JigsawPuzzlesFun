@@ -29,13 +29,39 @@
     [self showPhotoLibrary];
 }
 
--(void) initPhotoButton{
+-(void) initAlbumButton{
+    
+    CCSprite *normal = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
+    CCSprite *selected = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
+    
+    albumButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(showPhotoLibrary)];
+    albumButton.position = ccp(screenSize.height-50, screenSize.height-50);
+    albumButton.isEnabled = YES;
+    
+    CCMenu *menu = [CCMenu menuWithItems:albumButton, nil];
+    [menu alignItemsHorizontallyWithPadding:40];
+    [menu setPosition: ccp(140, 640)];
+    
+    if(IS_IPHONE_5)
+    {
+        [menu setPosition: ccp(screenSize.height + 140, 40)];
+    }
+    if(IS_IPHONE_4)
+    {
+        [menu setPosition: ccp(screenSize.height + 140, 40)];
+    }
+    
+    [self addChild:menu z:7 tag:7];
+}
+
+
+-(void) initCameraButton{
     
     CCSprite *normal = [CCSprite spriteWithFile:@"camera.png"];
     CCSprite *selected = [CCSprite spriteWithFile:@"camera.png"];
     
-    cameraButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(showPhotoLibrary)];
-    cameraButton.position = ccp(screenSize.width-50, screenSize.height-50);
+    cameraButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(startCamera)];
+    cameraButton.position = ccp(screenSize.width-60, screenSize.height-50);
     cameraButton.isEnabled = YES;
     
     CCMenu *menu = [CCMenu menuWithItems:cameraButton, nil];
@@ -104,7 +130,7 @@
 
 }
 
--(void) showPhotoLibrary
+-(void) startCamera
 {
     [CCAnimationCache purgeSharedAnimationCache];
     [[CCDirector sharedDirector] purgeCachedData];
@@ -165,48 +191,48 @@
 //    return UIImagePickerControllerSourceTypeCamera;
 //}
 
-//-(void) showPhotoLibrary
-//{
-//    [CCAnimationCache purgeSharedAnimationCache];
-//    [[CCDirector sharedDirector] purgeCachedData];
-//    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
-//    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
-//    
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    NSString *filePath = [paths stringByAppendingPathComponent:@"image.png"];
-//    [fileManager removeItemAtPath:filePath error:NULL];
-//    
-//	if (_picker) {
-//		[_picker dismissViewControllerAnimated:YES completion:nil];
-//		[_picker.view removeFromSuperview];
-//		[_picker release];
-//	}
-//	if (_popover) {
-//		[_popover dismissPopoverAnimated:NO];
-//		[_popover release];
-//	}
-//    CCDirector * director =[CCDirector sharedDirector];
-//	[director stopAnimation];
-//	_picker = [[[UIImagePickerController alloc] init] retain];
-//	_picker.delegate = self;
-//	_picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//    _picker.allowsEditing = NO;
-//    CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
-//
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-//        _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
-//        _popover.delegate = self;
-//        r.origin = [director convertToGL:r.origin];
-//        [_popover presentPopoverFromRect:r inView:[director view]
-//            permittedArrowDirections:0 animated:YES];
-//        _popover.popoverContentSize = CGSizeMake(320, screenSize.width);
-//        
-//    }else{
-//            
-//        [director presentViewController:_picker animated:YES completion:nil];
-//    }
-//}
+-(void) showPhotoLibrary
+{
+    [CCAnimationCache purgeSharedAnimationCache];
+    [[CCDirector sharedDirector] purgeCachedData];
+    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
+    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [paths stringByAppendingPathComponent:@"image.png"];
+    [fileManager removeItemAtPath:filePath error:NULL];
+    
+	if (_picker) {
+		[_picker dismissViewControllerAnimated:YES completion:nil];
+		[_picker.view removeFromSuperview];
+		[_picker release];
+	}
+	if (_popover) {
+		[_popover dismissPopoverAnimated:NO];
+		[_popover release];
+	}
+    CCDirector * director =[CCDirector sharedDirector];
+	[director stopAnimation];
+	_picker = [[[UIImagePickerController alloc] init] retain];
+	_picker.delegate = self;
+	_picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    _picker.allowsEditing = NO;
+    CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
+        _popover.delegate = self;
+        r.origin = [director convertToGL:r.origin];
+        [_popover presentPopoverFromRect:r inView:[director view]
+            permittedArrowDirections:0 animated:YES];
+        _popover.popoverContentSize = CGSizeMake(320, screenSize.width);
+        
+    }else{
+            
+        [director presentViewController:_picker animated:YES completion:nil];
+    }
+}
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [_picker dismissViewControllerAnimated:YES completion:nil];
@@ -358,7 +384,9 @@
     [[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
     [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:NO];
 
-    [self initPhotoButton];
+    [self initCameraButton];
+    
+    [self initAlbumButton];
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {

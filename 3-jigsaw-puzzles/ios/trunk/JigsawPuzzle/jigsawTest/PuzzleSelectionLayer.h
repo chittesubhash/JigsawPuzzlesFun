@@ -10,8 +10,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "cocos2d.h"
 #import "PuzzleGrid.h"
-#import "FGScrollLayer.h"
-#import "SlidingMenuColors.h"
 #import "InfiniteScrollPicker.h"
 #import "LevelEasyLayer.h"
 
@@ -28,6 +26,8 @@
     CCMenu *levelMenu;
     
     CCMenuItemSprite *cameraButton;
+    CCMenuItemSprite *albumButton;
+
     
     NSArray *categoryItems;
     UITableView *categoryTable;

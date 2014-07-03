@@ -268,8 +268,19 @@
     if (selectedPiece != nil && selectedPiece.fixed == NO) {
         selectedPiece.position = ccp(touchLocation.x - (selectedPiece.width/2), 
                                      touchLocation.y + (selectedPiece.height/2));
+        
+//        selectedPiece.anchorPoint = ccp(0, 0);
+//        [selectedPiece runAction:[CCRotateBy actionWithDuration:1 angle:90]];
+//        [self runAction:[CCRepeatForever actionWithAction:[CCSequence actions:[CCCallFunc actionWithTarget:self selector:@selector(rotate)], [CCDelayTime actionWithDuration:0.1], nil]]];
+    
+    
     }
 }
+
+//- (void)rotate
+//{
+//    self.position = ccpAdd(selectedPiece.position, selectedPiece.anchorPoint);
+//}
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event{
     if(selectedPiece != nil && selectedPiece.fixed) return;
