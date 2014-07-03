@@ -104,9 +104,12 @@
 
 }
 
-
 -(void) showPhotoLibrary
 {
+    [CCAnimationCache purgeSharedAnimationCache];
+    [[CCDirector sharedDirector] purgeCachedData];
+    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
+    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -126,23 +129,68 @@
 	[director stopAnimation];
 	_picker = [[[UIImagePickerController alloc] init] retain];
 	_picker.delegate = self;
-	_picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	_picker.sourceType = UIImagePickerControllerCameraDeviceFront;
     _picker.allowsEditing = NO;
-    CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
-
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-        _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
-        _popover.delegate = self;
-        r.origin = [director convertToGL:r.origin];
-        [_popover presentPopoverFromRect:r inView:[director view]
-            permittedArrowDirections:0 animated:YES];
-        _popover.popoverContentSize = CGSizeMake(320, screenSize.width);
-        
-    }else{
-            
-        [director presentViewController:_picker animated:YES completion:nil];
-    }
+    [director presentViewController:_picker animated:YES completion:nil];
+//    CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
+//    
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+//        _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
+//        _popover.delegate = self;
+//        r.origin = [director convertToGL:r.origin];
+//        [_popover presentPopoverFromRect:r inView:[director view]
+//                permittedArrowDirections:0 animated:YES];
+//        _popover.popoverContentSize = CGSizeMake(screenSize.height, screenSize.width);
+//        
+//    }else{
+//        
+//        [director presentViewController:_picker animated:YES completion:nil];
+//    }
 }
+
+
+//-(void) showPhotoLibrary
+//{
+//    [CCAnimationCache purgeSharedAnimationCache];
+//    [[CCDirector sharedDirector] purgeCachedData];
+//    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
+//    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
+//    
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//    NSString *filePath = [paths stringByAppendingPathComponent:@"image.png"];
+//    [fileManager removeItemAtPath:filePath error:NULL];
+//    
+//	if (_picker) {
+//		[_picker dismissViewControllerAnimated:YES completion:nil];
+//		[_picker.view removeFromSuperview];
+//		[_picker release];
+//	}
+//	if (_popover) {
+//		[_popover dismissPopoverAnimated:NO];
+//		[_popover release];
+//	}
+//    CCDirector * director =[CCDirector sharedDirector];
+//	[director stopAnimation];
+//	_picker = [[[UIImagePickerController alloc] init] retain];
+//	_picker.delegate = self;
+//	_picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    _picker.allowsEditing = NO;
+//    CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
+//
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+//        _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
+//        _popover.delegate = self;
+//        r.origin = [director convertToGL:r.origin];
+//        [_popover presentPopoverFromRect:r inView:[director view]
+//            permittedArrowDirections:0 animated:YES];
+//        _popover.popoverContentSize = CGSizeMake(320, screenSize.width);
+//        
+//    }else{
+//            
+//        [director presentViewController:_picker animated:YES completion:nil];
+//    }
+//}
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [_picker dismissViewControllerAnimated:YES completion:nil];
@@ -164,7 +212,6 @@
     
     [selectcategoryLabel removeFromSuperview];
     [categoryTable removeFromSuperview];
-    
     
     CGSize imageSize = CGSizeMake(693, 480);
     
