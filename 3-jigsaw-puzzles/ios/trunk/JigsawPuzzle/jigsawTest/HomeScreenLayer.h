@@ -9,7 +9,7 @@
 #import "CCLayer.h"
 #import "cocos2d.h"
 
-@interface HomeScreenLayer : CCLayer
+@interface HomeScreenLayer : CCLayer <UITableViewDelegate, UITableViewDataSource>
 {
     CGSize screenSize;
     CCParticleSystem* emitter;
@@ -17,6 +17,9 @@
     CCLabelBMFont* startLabel;
     CCMenu *optMenu;
 
+    NSArray *levels;
+    UILabel *selectLevel;
+    UITableView *levelSelectionTable;
 }
 
 +(CCScene *)scene;

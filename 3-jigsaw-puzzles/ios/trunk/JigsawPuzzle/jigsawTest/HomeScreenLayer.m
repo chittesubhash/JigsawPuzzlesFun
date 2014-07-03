@@ -9,6 +9,7 @@
 #import "HomeScreenLayer.h"
 #import "GameHelper.h"
 #import "GameManager.h"
+#import "CategorySelectionLayer.h"
 
 @implementation HomeScreenLayer
 +(CCScene*)scene
@@ -47,19 +48,17 @@
 - (void)onEnterTransitionDidFinish
 {
     [self scheduleOnce:@selector(megacloudAnimation:) delay:0.3];
-    [self scheduleOnce:@selector(initStartGameButton:) delay:1.2];
     [self scheduleOnce:@selector(initParticles:) delay:0.9];
-}
-
-- (void)onExitTransitionDidStart
-{
+    [self scheduleOnce:@selector(selectLevelButton:) delay:1.2];
     
-}
-
-- (void)onExit
-{
-    [emitter resetSystem];
-    [self removeAllChildrenWithCleanup:YES];
+    [[[GameManager sharedGameManager] bannerView] setHidden:YES];
+    if([[GameManager sharedGameManager] isInterstitialAdReady])
+    {
+//        [[[GameManager sharedGameManager]interstitial] presentFromViewController:[[CCDirector sharedDirector]navigationController]];
+        
+        
+        [[[GameManager sharedGameManager]interstitial] presentInView :[[CCDirector sharedDirector] view]];
+    }
 }
 
 - (void)megacloudAnimation:(ccTime)dt
@@ -111,35 +110,102 @@
     [self addChild: emitter];
 }
 
-- (void)initStartGameButton:(ccTime)dt
+
+#pragma mark Select Level Option
+
+- (void)selectLevelButton:(ccTime)dt
 {
-    CCSprite *normal = [CCSprite spriteWithFile:@"imag.png"];
-    CCSprite *selected = [CCSprite spriteWithFile:@"imag.png"];
+    levels = [[NSArray alloc] initWithObjects:@"Level 1", @"Level 2", @"Level 3", @"Level 4", @"Level 5", nil];
+    
+    selectLevel = [[UILabel alloc] initWithFrame:CGRectMake(372, 208, 300, 54)];
+    selectLevel.backgroundColor = [UIColor clearColor];
+    selectLevel.text = @"SELECT LEVEL";
+    selectLevel.textAlignment = NSTextAlignmentCenter;
+    selectLevel.textColor = [UIColor orangeColor];
+    selectLevel.font = [UIFont boldSystemFontOfSize:30.0];
+    [[[CCDirector sharedDirector] view] addSubview:selectLevel];
+    
+    
+    levelSelectionTable = [[UITableView alloc] initWithFrame:CGRectMake(372, 262, 300, 432) style:UITableViewStylePlain];
+    levelSelectionTable.backgroundColor = [UIColor clearColor];
+    levelSelectionTable.delegate = self;
+    levelSelectionTable.dataSource = self;
+    levelSelectionTable.opaque = YES;
+    [[[CCDirector sharedDirector] view] addSubview:levelSelectionTable];
 
-    CCMenuItemSprite *easyButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(playButtonClicked)];
-    easyButton.position = ccp(screenSize.width/2-50, screenSize.height/2-50);
-    
-    CCMenu *menu = [CCMenu menuWithItems:easyButton, nil];
-    [menu alignItemsHorizontallyWithPadding:40];
-    [menu setPosition: ccp(screenSize.height/2.0f + 140,300)];
-    
-    if(IS_IPHONE_5)
-    {
-        [menu setPosition: ccp(screenSize.height/2.0f + 40, 150)];
-    }
-    if(IS_IPHONE_4)
-    {
-        [menu setPosition: ccp(screenSize.height/2.0f + 40, 150)];
-    }
-
-    
-    [self addChild:menu z:2 tag:2];
 }
 
 
-- (void)playButtonClicked
+#pragma mark - Table View
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[GameManager sharedGameManager] runSceneWithID:kPuzzleSelection withParameter:nil];
+    return 54;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    UIView *view = [[UIView alloc] init];
+    tableView.tableFooterView = view;
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return levels.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.backgroundColor = [UIColor clearColor];
+    }
+    
+    NSDate *object = levels[indexPath.row];
+    cell.textLabel.text = [object description];
+    cell.textLabel.textColor = [UIColor cyanColor];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:24.0];
+    return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    [selectLevel removeFromSuperview];
+    [levelSelectionTable removeFromSuperview];
+    
+    
+    if(indexPath.row == 0)
+        [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[CategorySelectionLayer sceneWithParameter:0]]];
+    
+    if(indexPath.row == 1)
+        [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[CategorySelectionLayer sceneWithParameter:1]]];
+
+    if(indexPath.row == 2)
+        [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[CategorySelectionLayer sceneWithParameter:2]]];
+    
+    if(indexPath.row == 3)
+        [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[CategorySelectionLayer sceneWithParameter:3]]];
+    
+    if(indexPath.row == 4)
+        [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[CategorySelectionLayer sceneWithParameter:4]]];
+
+}
+
+
+- (void)onExitTransitionDidStart
+{
+    
+}
+
+- (void)onExit
+{
+    [emitter resetSystem];
+    [self removeAllChildrenWithCleanup:YES];
 }
 
 @end

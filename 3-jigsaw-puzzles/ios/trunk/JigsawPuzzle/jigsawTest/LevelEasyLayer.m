@@ -31,11 +31,6 @@
     newImage = imageSelected;
 }
 
-//CCScene *scene = [CCScene node];
-//JigsawBaseScene *layer = [JigsawBaseScene node];
-//[layer initWithSelectedImage:imageStr ForLetter:letter];
-//[scene addChild:layer]
-
 - (void)onEnter
 {
     [super onEnter];
@@ -92,7 +87,7 @@
     [self removeFromParentAndCleanup:YES];
     [self removeAllChildrenWithCleanup:YES];
     [self removeChild:puzzleImage cleanup:YES];
-    [[GameManager sharedGameManager] runSceneWithID:kPuzzleSelection withParameter:nil];
+    [[GameManager sharedGameManager] runSceneWithID:kCategorySelection withParameter:nil];
 }
 
 

@@ -12,7 +12,7 @@
 		8408C0281963DDCC009EB399 /* UIView+viewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408C0251963DDCC009EB399 /* UIView+viewController.m */; };
 		8408C0601963E2C6009EB399 /* categorySelectionBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8408C05E1963E2C6009EB399 /* categorySelectionBg.png */; };
 		8408C0611963E2C6009EB399 /* categorySelectionBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8408C05F1963E2C6009EB399 /* categorySelectionBg@2x.png */; };
-		8408C0641963E2F1009EB399 /* CategorySelectionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408C0631963E2F1009EB399 /* CategorySelectionLayer.m */; };
+		8408C0641963E2F1009EB399 /* CategorySelectionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408C0631963E2F1009EB399 /* CategorySelectionLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8408C08019640F5F009EB399 /* Letter1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8408C06619640F5F009EB399 /* Letter1.png */; };
 		8408C08B19640F5F009EB399 /* Letter2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8408C07119640F5F009EB399 /* Letter2.png */; };
 		8408C09319640F5F009EB399 /* Letter3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8408C07919640F5F009EB399 /* Letter3.png */; };
@@ -162,7 +162,6 @@
 		8428E1AD195D6F5300BFCAF2 /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428E1A8195D6F5300BFCAF2 /* Piece.m */; };
 		8428E1AE195D6F5300BFCAF2 /* PuzzleGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428E1AA195D6F5300BFCAF2 /* PuzzleGrid.m */; };
 		8428E1B1195D6FA000BFCAF2 /* LevelEasyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428E1B0195D6FA000BFCAF2 /* LevelEasyLayer.m */; };
-		8428E339195D840300BFCAF2 /* PuzzleSelectionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428E338195D840300BFCAF2 /* PuzzleSelectionLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		842ECDE2196539FB006E6131 /* Thumbnail_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDC196539FB006E6131 /* Thumbnail_1.png */; };
 		842ECDE3196539FB006E6131 /* Thumbnail_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDD196539FB006E6131 /* Thumbnail_2.png */; };
 		842ECDE4196539FB006E6131 /* Thumbnail_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 842ECDDE196539FB006E6131 /* Thumbnail_3.png */; };
@@ -621,8 +620,6 @@
 		8428E1AA195D6F5300BFCAF2 /* PuzzleGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleGrid.m; sourceTree = "<group>"; };
 		8428E1AF195D6FA000BFCAF2 /* LevelEasyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelEasyLayer.h; sourceTree = "<group>"; };
 		8428E1B0195D6FA000BFCAF2 /* LevelEasyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelEasyLayer.m; sourceTree = "<group>"; };
-		8428E337195D840300BFCAF2 /* PuzzleSelectionLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleSelectionLayer.h; sourceTree = "<group>"; };
-		8428E338195D840300BFCAF2 /* PuzzleSelectionLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleSelectionLayer.m; sourceTree = "<group>"; };
 		842ECDDC196539FB006E6131 /* Thumbnail_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_1.png; sourceTree = "<group>"; };
 		842ECDDD196539FB006E6131 /* Thumbnail_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_2.png; sourceTree = "<group>"; };
 		842ECDDE196539FB006E6131 /* Thumbnail_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumbnail_3.png; sourceTree = "<group>"; };
@@ -860,8 +857,6 @@
 				8428E18C195D4EE100BFCAF2 /* HomeScreenLayer.m */,
 				8408C0621963E2F1009EB399 /* CategorySelectionLayer.h */,
 				8408C0631963E2F1009EB399 /* CategorySelectionLayer.m */,
-				8428E337195D840300BFCAF2 /* PuzzleSelectionLayer.h */,
-				8428E338195D840300BFCAF2 /* PuzzleSelectionLayer.m */,
 				8428E1AF195D6FA000BFCAF2 /* LevelEasyLayer.h */,
 				8428E1B0195D6FA000BFCAF2 /* LevelEasyLayer.m */,
 				8428DE23195D464600BFCAF2 /* ViewController.h */,
@@ -1816,7 +1811,6 @@
 				8428E13E195D479000BFCAF2 /* CCTMXXMLParser.m in Sources */,
 				8428E133195D479000BFCAF2 /* CCSpriteBatchNode.m in Sources */,
 				8428E188195D4A2100BFCAF2 /* ImageHelper.m in Sources */,
-				8428E339195D840300BFCAF2 /* PuzzleSelectionLayer.m in Sources */,
 				8408C0261963DDCC009EB399 /* InfiniteScrollPicker.m in Sources */,
 				8428E160195D479000BFCAF2 /* ZFont.m in Sources */,
 				8428E117195D479000BFCAF2 /* ccDeprecated.m in Sources */,

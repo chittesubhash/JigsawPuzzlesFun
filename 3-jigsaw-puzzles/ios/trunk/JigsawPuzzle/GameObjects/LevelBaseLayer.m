@@ -157,7 +157,7 @@
 
 -(void) onClickNewGame {
     [AudioHelper playNewGame];
-    [[GameManager sharedGameManager] runSceneWithID:kPuzzleSelection withParameter:nil];
+    [[GameManager sharedGameManager] runSceneWithID:kCategorySelection withParameter:nil];
 }
 
 -(void) removeAllPieces{

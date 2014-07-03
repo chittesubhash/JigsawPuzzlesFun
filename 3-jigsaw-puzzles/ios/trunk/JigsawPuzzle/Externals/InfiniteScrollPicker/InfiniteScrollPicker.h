@@ -49,6 +49,11 @@
 
 - (void)initInfiniteScrollView;
 - (void)setSelectedItem:(int)index;
-- (void)setImageAry;
+
+- (void)setAnimalsImagesArray;
+- (void)setCarsImagesArray;
+- (void)setFlowersImagesArray;
+- (void)setBuildingsImagesArray;
+
 
 @end

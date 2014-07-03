@@ -6,12 +6,11 @@
  */
 
 #import "GameManager.h"
-#import "PuzzleSelectionLayer.h"
 #import "LevelEasyLayer.h"
-//#import "LevelHardLayer.h"
-//#import "LevelNormalLayer.h"
 #import "GameConstants.h"
 #import "HomeScreenLayer.h"
+#import "CategorySelectionLayer.h"
+
 @implementation GameManager
 
 static GameManager* _sharedGameManager = nil;
@@ -56,8 +55,113 @@ static GameManager* _sharedGameManager = nil;
         soundEngine = nil;
         managerSoundState = kAudioManagerUninitialized;
         currentPage = 0;
+        
+        
+        bannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+        bannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [bannerView setDelegate:self];
+        [[[CCDirector sharedDirector] view] addSubview:bannerView];
+        bannerView.hidden = YES;
+        [self moveBannerOffScreen];
+        
+        interstitial = [[ADInterstitialAd alloc] init];
+        interstitial.delegate = self;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RemoveAdds) name:@"RemoveAds" object:nil];
+
     }
     return self;
+}
+
+-(void) moveBannerOnScreen
+{
+    bannerView.hidden = NO;
+
+    CGSize windowSize = [[CCDirector sharedDirector] winSize];
+    [UIView beginAnimations:@"BannerViewIntro" context:NULL];
+    bannerView.frame = CGRectMake(0, windowSize.height - 60, windowSize.width, 100);;
+    [UIView commitAnimations];
+}
+
+-(void) moveBannerOffScreen
+{
+    bannerView.hidden = YES;
+
+    CGSize windowSize = [[CCDirector sharedDirector] winSize];
+    bannerView.frame = CGRectMake(0, (-1) * windowSize.height, windowSize.width, 100);
+}
+
+
+#pragma mark - iAD Delegate
+
+-(BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
+    
+    return YES;
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    
+    NSLog(@"bannerViewDidLoadAd");
+    
+    [self moveBannerOnScreen];
+    
+}
+
+
+
+-(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
+    
+}
+
+
+#pragma mark ADInterstitialViewDelegate methods
+
+// The application should implement this method so that when the user dismisses the interstitial via
+// the top left corner dismiss button (which will hide the content of the interstitial) the
+// application can then move the view offscreen.
+- (void)interstitialAdDidUnload:(ADInterstitialAd *)interstitialAd
+{
+    
+}
+
+// This method is invoked each time a interstitial loads a new advertisement.
+// The delegate should implement this method so that it knows when the interstitial is ready to be displayed.
+- (void)interstitialAdDidLoad:(ADInterstitialAd *)interstitialAd
+{
+    NSLog(@"***interstitialAdDidLoad****");
+    _isInterstitialAdReady = YES;
+}
+
+
+- (void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error
+{
+    NSLog(@"interstitialAd <%@> recieved error <%@>", interstitialAd, error);
+    _isInterstitialAdReady = NO;
+}
+
+- (BOOL)interstitialAdActionShouldBegin:(ADInterstitialAd *)interstitialAd willLeaveApplication:(BOOL)willLeave
+{
+    return YES;
+}
+
+
+- (void)interstitialAdActionDidFinish:(ADInterstitialAd *)interstitialAd
+{
+    
+    NSLog(@"****interstitialAdActionDidFinish***");
+}
+
+
+- (void)RemoveAdds {
+    
+    NSLog(@"***Removing_Ads***");
+    bannerView.delegate = nil;
+    [bannerView removeFromSuperview];
+    
+    interstitial.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 -(void)runSceneWithID:(SceneTypes)sceneID withParameter:(NSString *)imageName {
@@ -69,8 +173,8 @@ static GameManager* _sharedGameManager = nil;
         case kHomeScreen:
             sceneToRun = [CCTransitionFade transitionWithDuration:1.0 scene:[HomeScreenLayer scene] ];
             break;
-        case kPuzzleSelection:
-            sceneToRun = [CCTransitionFadeBL transitionWithDuration:1.0 scene:[PuzzleSelectionLayer scene]];
+        case kCategorySelection:
+            sceneToRun = [CCTransitionFadeBL transitionWithDuration:1.0 scene:[CategorySelectionLayer sceneWithParameter:nil]];
             break;
         case kLevelEasy:
             sceneToRun = [CCTransitionFadeTR transitionWithDuration:1.0 scene:[LevelEasyLayer sceneWithParameter:imageName]];

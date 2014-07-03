@@ -8,7 +8,7 @@
 typedef enum {
     kNoSceneUninitialized=0,
     kHomeScreen=1,
-    kPuzzleSelection=2,
+    kCategorySelection=2,
     kLevelEasy=3,
     kLevelNormal=4,
     kLevelHard=5

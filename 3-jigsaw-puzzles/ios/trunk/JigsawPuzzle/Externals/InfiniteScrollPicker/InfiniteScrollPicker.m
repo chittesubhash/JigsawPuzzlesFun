@@ -40,7 +40,6 @@
 - (void)initInfiniteScrollView
 {
     [self initInfiniteScrollViewWithSelectedItem:0];
-    //[self setImageAry];
 }
 
 
@@ -132,7 +131,10 @@
     }
 }
 
-- (void)setImageAry
+
+#pragma mark - Initializing Images Array
+
+- (void)setAnimalsImagesArray;
 {
     for (int i = 1; i <= 6; i++) {
         NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
@@ -141,6 +143,40 @@
     }
     [self initInfiniteScrollView];
 }
+
+
+- (void)setCarsImagesArray
+{
+    for (int i = 1; i <= 6; i++) {
+        NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+        UIImage *image = [UIImage imageNamed:thumbImgName];
+        [imageAry addObject:image];
+    }
+    [self initInfiniteScrollView];
+}
+
+
+- (void)setFlowersImagesArray
+{
+    for (int i = 1; i <= 6; i++) {
+        NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+        UIImage *image = [UIImage imageNamed:thumbImgName];
+        [imageAry addObject:image];
+    }
+    [self initInfiniteScrollView];
+}
+
+
+- (void)setBuildingsImagesArray
+{
+    for (int i = 1; i <= 6; i++) {
+        NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+        UIImage *image = [UIImage imageNamed:thumbImgName];
+        [imageAry addObject:image];
+    }
+    [self initInfiniteScrollView];
+}
+
 
 - (void)setItemSize:(CGSize)itemSize
 {
