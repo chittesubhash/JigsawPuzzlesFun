@@ -129,25 +129,41 @@
 	[director stopAnimation];
 	_picker = [[[UIImagePickerController alloc] init] retain];
 	_picker.delegate = self;
-	_picker.sourceType = UIImagePickerControllerCameraDeviceFront;
     _picker.allowsEditing = NO;
-    [director presentViewController:_picker animated:YES completion:nil];
-//    CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
-//    
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-//        _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
-//        _popover.delegate = self;
-//        r.origin = [director convertToGL:r.origin];
-//        [_popover presentPopoverFromRect:r inView:[director view]
-//                permittedArrowDirections:0 animated:YES];
-//        _popover.popoverContentSize = CGSizeMake(screenSize.height, screenSize.width);
-//        
-//    }else{
-//        
-//        [director presentViewController:_picker animated:YES completion:nil];
-//    }
+
+    
+    if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ])
+    {
+        // do something
+        _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        
+        [director presentViewController:_picker animated:YES completion:nil];
+    }
+    else
+    {
+        CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
+        _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+            _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
+            _popover.delegate = self;
+            r.origin = [director convertToGL:r.origin];
+            [_popover presentPopoverFromRect:r inView:[director view]
+                    permittedArrowDirections:0 animated:YES];
+            _popover.popoverContentSize = CGSizeMake(320, screenSize.width);
+            
+        }else{
+            
+            [director presentViewController:_picker animated:YES completion:nil];
+        }
+
+    }
 }
 
+
+//+ (BOOL)isCameraDeviceAvailable:(UIImagePickerControllerCameraDevice)cameraDevice
+//{
+//    return UIImagePickerControllerSourceTypeCamera;
+//}
 
 //-(void) showPhotoLibrary
 //{
