@@ -113,7 +113,7 @@
     
     if (isFullVersion)
         return NO;
-    for (int i = 1; i < 14; i++) {
+    for (int i = 1; i < 6; i++) {
         if ([image isEqual:[UIImage imageNamed:[NSString stringWithFormat:@"Thumbnail_%d.png", i]]])
             return NO;
     }
@@ -134,7 +134,7 @@
 
 - (void)setImageAry
 {
-    for (int i = 1; i <= 14; i++) {
+    for (int i = 1; i <= 6; i++) {
         NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
         UIImage *image = [UIImage imageNamed:thumbImgName];
         [imageAry addObject:image];
