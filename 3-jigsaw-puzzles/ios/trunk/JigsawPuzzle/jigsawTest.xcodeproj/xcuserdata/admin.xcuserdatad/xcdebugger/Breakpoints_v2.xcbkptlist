@@ -89,13 +89,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "jigsawTest/HomeScreenLayer.m"
-            timestampString = "426086588.053125"
+            filePath = "jigsawTest/CategorySelectionLayer.m"
+            timestampString = "426155226.52922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "-selectLevelButton:"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "-showPhotoLibrary"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Externals/InfiniteScrollPicker/InfiniteScrollPicker.m"
+            timestampString = "426154645.521126"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "-initInfiniteScrollViewWithSelectedItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

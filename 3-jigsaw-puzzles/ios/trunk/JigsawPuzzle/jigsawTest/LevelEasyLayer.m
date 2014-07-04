@@ -100,7 +100,15 @@
     [self scheduleOnce:@selector(enableTouch:) delay:0.5];
     
     
-    CCSprite *itemSprite = [[CCSprite alloc] initWithFile:@"back-button.png"];
+    CCSprite *itemSprite;
+    if(IS_IPHONE_5 || IS_IPHONE_4)
+    {
+        itemSprite = [[CCSprite alloc] initWithFile:@"back-button_iPhone.png"];
+    }
+    else
+    {
+        itemSprite = [[CCSprite alloc] initWithFile:@"back-button.png"];
+    }
     CCMenuItemSprite *backButton = [CCMenuItemSprite itemWithNormalSprite:itemSprite selectedSprite:nil
                                                                    target:self
                                                                  selector:@selector(onClickBack)];
@@ -109,8 +117,8 @@
     [backMenu setPosition:ccp(backButton.contentSize.width/2,
                               screenSize.height - (backButton.contentSize.height/2))];
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-        [backMenu setPosition:ccp(backButton.contentSize.width-5,
-                                  screenSize.height - backButton.contentSize.height )];
+        [backMenu setPosition:ccp(backButton.contentSize.width/2,
+                                  screenSize.height - backButton.contentSize.height/2 )];
         
     }
     

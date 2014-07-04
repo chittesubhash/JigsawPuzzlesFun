@@ -95,13 +95,45 @@
     
     cameraButton.opacity = 100.0f;
     
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        selectcategoryLabel.frame = CGRectMake(140, 48, 200, 44);
+        categoryTable.frame = CGRectMake(140, 92, 200, 200);
+        
+        selectcategoryLabel.font = [UIFont boldSystemFontOfSize:16.0];
+    }
+    
     [[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
     [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:NO];
     
-    [self initCameraButton];
-    
     [self initAlbumButton];
+
+    [self initCameraButton];
 }
+
+-(void) initAlbumButton
+{
+    CCSprite *normal = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
+    CCSprite *selected = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
+    
+    albumButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(showPhotoLibrary)];
+    albumButton.position = ccp(screenSize.height-50, screenSize.height-50);
+    albumButton.isEnabled = YES;
+    
+    
+    
+    CCMenu *menu = [CCMenu menuWithItems:albumButton, nil];
+    [menu alignItemsHorizontallyWithPadding:40];
+    [menu setPosition: ccp(40, 640)];
+    
+    if(IS_IPHONE_5 || IS_IPHONE_4)
+    {
+        [menu setPosition: ccp(60, 260)];
+    }
+    
+    [self addChild:menu z:7 tag:7];
+}
+
 
 -(void) initCameraButton{
     
@@ -114,46 +146,16 @@
     
     CCMenu *menu = [CCMenu menuWithItems:cameraButton, nil];
     [menu alignItemsHorizontallyWithPadding:40];
-    [menu setPosition: ccp(screenSize.height + 140, 640)];
+    [menu setPosition: ccp(screenSize.width - 140, 640)];
     
-    if(IS_IPHONE_5)
+    
+    if(IS_IPHONE_5 || IS_IPHONE_4)
     {
-        [menu setPosition: ccp(screenSize.height + 140, 40)];
-    }
-    if(IS_IPHONE_4)
-    {
-        [menu setPosition: ccp(screenSize.height + 140, 40)];
+        [menu setPosition: ccp(screenSize.width - 70, 260)];
     }
     
     [self addChild:menu z:7 tag:7];
 }
-
--(void) initAlbumButton
-{
-    
-    CCSprite *normal = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
-    CCSprite *selected = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
-    
-    albumButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(showPhotoLibrary)];
-    albumButton.position = ccp(screenSize.height-50, screenSize.height-50);
-    albumButton.isEnabled = YES;
-    
-    CCMenu *menu = [CCMenu menuWithItems:albumButton, nil];
-    [menu alignItemsHorizontallyWithPadding:40];
-    [menu setPosition: ccp(140, 640)];
-    
-    if(IS_IPHONE_5)
-    {
-        [menu setPosition: ccp(screenSize.height + 140, 40)];
-    }
-    if(IS_IPHONE_4)
-    {
-        [menu setPosition: ccp(screenSize.height + 140, 40)];
-    }
-    
-    [self addChild:menu z:7 tag:7];
-}
-
 
 -(void) startCamera
 {
@@ -372,11 +374,16 @@
 #pragma mark - Table View
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 54;
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+        return 34;
+    else
+        return 54;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    UIView *view = [[UIView alloc] init];
+    tableView.tableFooterView = view;
     return 1;
 }
 
@@ -399,17 +406,18 @@
     cell.textLabel.text = [object description];
     cell.textLabel.textColor = [UIColor cyanColor];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:24.0];
+    
+    if(IS_IPHONE_5 || IS_IPHONE_4)
+    {
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+    }
+    
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    [selectcategoryLabel removeFromSuperview];
-    [categoryTable removeFromSuperview];
-    [scrollView removeFromSuperview];
-    
     if(indexPath.row == 0)
         [self animalPuzzles];
     
@@ -425,92 +433,116 @@
 }
 
 - (void)animalPuzzles {
-    float height = 768;
-    
-    scrollView = [[UIView alloc]initWithFrame:CGRectMake(0,  0, 1024, height)];
-    [scrollView setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.5]];
-    scrollView.hidden = NO;
-    [[[CCDirector sharedDirector]view] addSubview:scrollView];
-    
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, 1024, height) WithDelegate:self];
+    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
     [infiniteScrollPicker setUserInteractionEnabled:YES];
     
     [infiniteScrollPicker setAnimalsImagesArray];
     [infiniteScrollPicker setHeightOffset:20];
     [infiniteScrollPicker setPositionRatio:2];
     [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [scrollView addSubview:infiniteScrollPicker];
+    [[[CCDirector sharedDirector] view] addSubview:infiniteScrollPicker];
     
-    //    [self initHomeButton];
+    
+    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton.frame = CGRectMake(0, 0, 64, 64);
+    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:closeButton];
+    
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
+    }
 }
 
-
 - (void)carPuzzles {
-    float height = 768;
     
-    scrollView = [[UIView alloc]initWithFrame:CGRectMake(0,  0, 1024, height)];
-    [scrollView setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.5]];
-    scrollView.hidden = NO;
-    [[[CCDirector sharedDirector]view] addSubview:scrollView];
-    
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, 1024, height) WithDelegate:self];
+    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
     [infiniteScrollPicker setUserInteractionEnabled:YES];
     
     [infiniteScrollPicker setCarsImagesArray];
     [infiniteScrollPicker setHeightOffset:20];
     [infiniteScrollPicker setPositionRatio:2];
     [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [scrollView addSubview:infiniteScrollPicker];
+    [[[CCDirector sharedDirector]view] addSubview:infiniteScrollPicker];
     
-    //    [self initHomeButton];
+    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton.frame = CGRectMake(0, 0, 64, 64);
+    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:closeButton];
+
+    
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
+    }
 }
 
 
 - (void)flowerPuzzles {
-    float height = 768;
     
-    scrollView = [[UIView alloc]initWithFrame:CGRectMake(0,  0, 1024, height)];
-    [scrollView setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.5]];
-    scrollView.hidden = NO;
-    [[[CCDirector sharedDirector]view] addSubview:scrollView];
-    
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, 1024, height) WithDelegate:self];
+    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
     [infiniteScrollPicker setUserInteractionEnabled:YES];
     
     [infiniteScrollPicker setFlowersImagesArray];
     [infiniteScrollPicker setHeightOffset:20];
     [infiniteScrollPicker setPositionRatio:2];
     [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [scrollView addSubview:infiniteScrollPicker];
+    [[[CCDirector sharedDirector]view] addSubview:infiniteScrollPicker];
     
-    //    [self initHomeButton];
+    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton.frame = CGRectMake(0, 0, 64, 64);
+    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:closeButton];
+
+    
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
+    }
+
 }
 
 
 - (void)buildingPuzzles {
-    float height = 768;
     
-    scrollView = [[UIView alloc]initWithFrame:CGRectMake(0,  0, 1024, height)];
-    [scrollView setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.5]];
-    scrollView.hidden = NO;
-    [[[CCDirector sharedDirector]view] addSubview:scrollView];
-    
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, 1024, height) WithDelegate:self];
-    infiniteScrollPicker.backgroundColor = [UIColor clearColor];
+    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
     [infiniteScrollPicker setUserInteractionEnabled:YES];
     
     [infiniteScrollPicker setBuildingsImagesArray];
     [infiniteScrollPicker setHeightOffset:20];
     [infiniteScrollPicker setPositionRatio:2];
     [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [scrollView addSubview:infiniteScrollPicker];
+    [[[CCDirector sharedDirector]view] addSubview:infiniteScrollPicker];
     
+    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton.frame = CGRectMake(0, 0, 64, 64);
+    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:closeButton];
+
+    
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
+    }
+}
+
+- (void)closeScrollView
+{
+    [closeButton removeFromSuperview];
+    [infiniteScrollPicker removeFromSuperview];
 }
 
 - (void)btnClicked:(UIButton *)sender {
     NSLog(@"**CustomScrollViewBtnClicked = %d", sender.tag);
     
-    [scrollView removeFromSuperview];
+    [closeButton removeFromSuperview];
+    [categoryTable removeFromSuperview];
+    [selectcategoryLabel removeFromSuperview];
+    [infiniteScrollPicker removeFromSuperview];
     
     int pos = sender.tag % 6;
     NSLog(@"**Pos = %d", pos);
@@ -520,9 +552,17 @@
     
     //    NSString *letter = [objectNames objectAtIndex:pos];
     
-    NSString *imageName =  [NSString stringWithFormat:@"Letter%d.png", pos + 1];
+    NSString *imageName = @"";
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        imageName =  [NSString stringWithFormat:@"Letter%d_iPhone.png", pos + 1];
+    }
+    else
+    {
+        imageName =  [NSString stringWithFormat:@"Letter%d.png", pos + 1];
+    }
     NSLog(@"**imageName = %@", imageName);
-    
+
     [[GameManager sharedGameManager] runSceneWithID:kLevelEasy withParameter:imageName];
     
     

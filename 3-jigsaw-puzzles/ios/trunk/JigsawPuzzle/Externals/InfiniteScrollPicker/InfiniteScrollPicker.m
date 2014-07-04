@@ -24,7 +24,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-            
+//        self.backgroundColor = [UIColor groupTableViewBackgroundColor];
+
         alphaOfobjs = 1.0;
         heightOffset = 0.0;
         positionRatio = 1.0;
@@ -45,12 +46,19 @@
 
 - (void)initInfiniteScrollViewWithSelectedItem:(int)index
 {
-    NSLog(@"***ItemSize = %@", NSStringFromCGSize(_itemSize));
-    if (_itemSize.width == 0 && _itemSize.height == 0) {
-        if (imageAry.count > 0) _itemSize = [(UIImage *)[imageAry objectAtIndex:0] size];
-        else _itemSize = CGSizeMake(self.frame.size.height/2, self.frame.size.height/2);
+    NSLog(@"***ItemSize 1111 = %@", NSStringFromCGSize(_itemSize));
+    if (_itemSize.width == 0 && _itemSize.height == 0)
+    {
+        if (imageAry.count > 0)
+            _itemSize = [(UIImage *)[imageAry objectAtIndex:0] size];
+        else
+            _itemSize = CGSizeMake(self.frame.size.height/2, self.frame.size.height/2);
+        
+        NSLog(@"***ItemSize 2222 = %@", NSStringFromCGSize(_itemSize));
     }
     
+    //Original size is 351x244
+
     NSAssert((_itemSize.height < self.frame.size.height), @"item's height must not bigger than scrollpicker's height");
     CGSize size;
     self.pagingEnabled = NO;
@@ -102,11 +110,8 @@
                 [self snapToAnEmotion];
             });
         });
-        
     }
 }
-
-
 
 - (BOOL)isNeedLock:(UIImage *)image {
     
@@ -136,21 +141,44 @@
 
 - (void)setAnimalsImagesArray;
 {
-    for (int i = 1; i <= 6; i++) {
-        NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
-        UIImage *image = [UIImage imageNamed:thumbImgName];
-        [imageAry addObject:image];
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_iPhone%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
     }
+    else
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
+    }
+    
     [self initInfiniteScrollView];
 }
 
 
 - (void)setCarsImagesArray
 {
-    for (int i = 1; i <= 6; i++) {
-        NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
-        UIImage *image = [UIImage imageNamed:thumbImgName];
-        [imageAry addObject:image];
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_iPhone%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
+    }
+    else
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
     }
     [self initInfiniteScrollView];
 }
@@ -158,10 +186,21 @@
 
 - (void)setFlowersImagesArray
 {
-    for (int i = 1; i <= 6; i++) {
-        NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
-        UIImage *image = [UIImage imageNamed:thumbImgName];
-        [imageAry addObject:image];
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_iPhone%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
+    }
+    else
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
     }
     [self initInfiniteScrollView];
 }
@@ -169,10 +208,21 @@
 
 - (void)setBuildingsImagesArray
 {
-    for (int i = 1; i <= 6; i++) {
-        NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
-        UIImage *image = [UIImage imageNamed:thumbImgName];
-        [imageAry addObject:image];
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_iPhone%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
+    }
+    else
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
     }
     [self initInfiniteScrollView];
 }

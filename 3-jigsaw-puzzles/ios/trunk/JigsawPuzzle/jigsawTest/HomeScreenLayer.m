@@ -53,13 +53,11 @@
     
     [[[GameManager sharedGameManager] bannerView] setHidden:YES];
     if([[GameManager sharedGameManager] isInterstitialAdReady])
-    {
-//        [[[GameManager sharedGameManager]interstitial] presentFromViewController:[[CCDirector sharedDirector]navigationController]];
-        
-        
-        [[[GameManager sharedGameManager]interstitial] presentInView :[[CCDirector sharedDirector] view]];
+    {        
+//        [[[GameManager sharedGameManager] interstitial] presentInView :[[CCDirector sharedDirector] view]];
     }
 }
+
 
 - (void)megacloudAnimation:(ccTime)dt
 {
@@ -133,13 +131,23 @@
     levelSelectionTable.opaque = YES;
     [[[CCDirector sharedDirector] view] addSubview:levelSelectionTable];
 
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        selectLevel.frame = CGRectMake(140, 48, 200, 44);
+        levelSelectionTable.frame = CGRectMake(140, 92, 200, 200);
+
+        selectLevel.font = [UIFont boldSystemFontOfSize:16.0];
+    }
 }
 
 
 #pragma mark - Table View
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 54;
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+        return 34;
+    else
+        return 54;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -168,6 +176,11 @@
     cell.textLabel.text = [object description];
     cell.textLabel.textColor = [UIColor cyanColor];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:24.0];
+    
+    if(IS_IPHONE_5 || IS_IPHONE_4)
+    {
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+    }
     return cell;
 }
 

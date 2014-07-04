@@ -36,12 +36,12 @@
     UILabel *selectcategoryLabel;
     
     LevelEasyLayer *levelEasy;
-    UIView *scrollView;
     InfiniteScrollPicker *infiniteScrollPicker;
     
     BOOL cameraSelected;
     int selectedLevel;
 
+    UIButton *closeButton;
 }
 
 +(CCScene *)sceneWithParameter:(int)levelNo;

@@ -57,15 +57,15 @@ static GameManager* _sharedGameManager = nil;
         currentPage = 0;
         
         
-        bannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
-        bannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [bannerView setDelegate:self];
-        [[[CCDirector sharedDirector] view] addSubview:bannerView];
-        bannerView.hidden = YES;
+        _bannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+        _bannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [_bannerView setDelegate:self];
+        [[[CCDirector sharedDirector] view] addSubview:_bannerView];
+        _bannerView.hidden = YES;
         [self moveBannerOffScreen];
         
-        interstitial = [[ADInterstitialAd alloc] init];
-        interstitial.delegate = self;
+        _interstitial = [[ADInterstitialAd alloc] init];
+        _interstitial.delegate = self;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RemoveAdds) name:@"RemoveAds" object:nil];
 
@@ -75,20 +75,26 @@ static GameManager* _sharedGameManager = nil;
 
 -(void) moveBannerOnScreen
 {
-    bannerView.hidden = NO;
+    _bannerView.hidden = NO;
 
     CGSize windowSize = [[CCDirector sharedDirector] winSize];
     [UIView beginAnimations:@"BannerViewIntro" context:NULL];
-    bannerView.frame = CGRectMake(0, windowSize.height - 60, windowSize.width, 100);;
+    _bannerView.frame = CGRectMake(0, windowSize.height - 60, windowSize.width, 100);;
     [UIView commitAnimations];
+    
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        _bannerView.frame = CGRectMake(0, 288, windowSize.width, 64);;
+    }
+
 }
 
 -(void) moveBannerOffScreen
 {
-    bannerView.hidden = YES;
+    _bannerView.hidden = YES;
 
     CGSize windowSize = [[CCDirector sharedDirector] winSize];
-    bannerView.frame = CGRectMake(0, (-1) * windowSize.height, windowSize.width, 100);
+    _bannerView.frame = CGRectMake(0, (-1) * windowSize.height, windowSize.width, 100);
 }
 
 
@@ -130,6 +136,7 @@ static GameManager* _sharedGameManager = nil;
 - (void)interstitialAdDidLoad:(ADInterstitialAd *)interstitialAd
 {
     NSLog(@"***interstitialAdDidLoad****");
+    [self RemoveAdds];
     _isInterstitialAdReady = YES;
 }
 
@@ -156,10 +163,10 @@ static GameManager* _sharedGameManager = nil;
 - (void)RemoveAdds {
     
     NSLog(@"***Removing_Ads***");
-    bannerView.delegate = nil;
-    [bannerView removeFromSuperview];
+    _bannerView.delegate = nil;
+    [_bannerView removeFromSuperview];
     
-    interstitial.delegate = nil;
+    _interstitial.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }

@@ -24,9 +24,7 @@
     SimpleAudioEngine *soundEngine;
     NSMutableDictionary *listOfSoundEffectFiles;
     NSMutableDictionary *soundEffectsState;
-    
-    ADBannerView *bannerView;
-    ADInterstitialAd *interstitial;
+
 }
 
 @property (readwrite) BOOL isMusicON;
