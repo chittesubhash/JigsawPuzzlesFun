@@ -9,26 +9,32 @@
 #import "LevelEasyLayer.h"
 #import "GameManager.h"
 #import "GameConstants.h"
-
+#import "HomeScreenLayer.h"
 #import "GameHelper.h"
 #import "ImageHelper.h"
+#import "AudioHelper.h"
 
 @implementation LevelEasyLayer
+@synthesize selectedLevel;
 
-+(CCScene *)sceneWithParameter:(NSString *)imageStr
++(CCScene *)sceneWithParameter:(NSString *)imageStr withLevel:(int)levelNo
 {
     CCScene *scene = [CCScene node];
     LevelEasyLayer *layer = [LevelEasyLayer node];
     
-    [layer initWithSelectedImage:imageStr];
+    [layer initWithSelectedImage:imageStr andLevel:levelNo];
     [scene addChild:layer];
     
     return scene;
 }
 
-- (void)initWithSelectedImage:(NSString *)imageSelected
+- (void)initWithSelectedImage:(NSString *)imageSelected andLevel:(int)levelNo
 {
+    NSLog(@"Selected Image 22 :: %@", imageSelected);
+    NSLog(@"Selected Level 22 :: %d", levelNo);
+
     newImage = imageSelected;
+    selectedLevel = levelNo;
 }
 
 - (void)onEnter
@@ -65,41 +71,34 @@
     
 	background.position = ccp(screenSize.width/2, screenSize.height/2);
     [self addChild:background];
-        
-//    CCSprite *fgfg = [CCSprite spriteWithFile:@"back-button.png"];
-//    CCMenuItemSprite *backButton1 = [CCMenuItemSprite itemWithNormalSprite:fgfg selectedSprite:fgfg target:self selector:@selector(onClickBack)];
-//    
-//    CCMenu *backMenu1 = [CCMenu menuWithItems:backButton1,nil];
-//    [backMenu1 setPosition:ccp(backButton1.contentSize.width-15,
-//                               screenSize.height - (backButton1.contentSize.height-15))];
-//    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-//        [backMenu1 setPosition:ccp(backButton1.contentSize.width-15,
-//                                   screenSize.height - (backButton1.contentSize.height+20))];
-//        
-//    }
-//    [self addChild:backMenu1 z:2000 tag:700];
-
 }
 
 
 - (void)onClickBack
 {
+    [hintLabel removeFromSuperview];
+    [switchControl removeFromSuperview];
+    
     [self removeFromParentAndCleanup:YES];
     [self removeAllChildrenWithCleanup:YES];
     [self removeChild:puzzleImage cleanup:YES];
-    [[GameManager sharedGameManager] runSceneWithID:kCategorySelection withParameter:nil];
+    
+    [AudioHelper playBack];
+
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"HOMEPAGE"] == YES)
+    {
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeBL transitionWithDuration:0.5 scene:[HomeScreenLayer scene]]];
+    }
+    else
+    {
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeBL transitionWithDuration:0.5 scene:[CategorySelectionLayer sceneParameter:@""]]];
+    }
+    
 }
 
 
--(void)onEnterTransitionDidFinish{
-    int cols = 4;
-    int rows = 3;
-    pieces = [[NSMutableArray alloc] initWithCapacity:cols*rows];
-    [self loadLevelSprites:@"4x3"];
-    [self loadPieces:@"levelEasy" withCols:cols andRols:rows];
-    [self scheduleOnce:@selector(enableTouch:) delay:0.5];
-    
-    
+-(void)onEnterTransitionDidFinish
+{
     CCSprite *itemSprite;
     if(IS_IPHONE_5 || IS_IPHONE_4)
     {
@@ -109,6 +108,7 @@
     {
         itemSprite = [[CCSprite alloc] initWithFile:@"back-button.png"];
     }
+    
     CCMenuItemSprite *backButton = [CCMenuItemSprite itemWithNormalSprite:itemSprite selectedSprite:nil
                                                                    target:self
                                                                  selector:@selector(onClickBack)];
@@ -119,12 +119,44 @@
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
         [backMenu setPosition:ccp(backButton.contentSize.width/2,
                                   screenSize.height - backButton.contentSize.height/2 )];
-        
     }
-    
     [self addChild:backMenu z:80 tag:70];
 
+    
+    if(selectedLevel == 1 || selectedLevel == 5)
+    {
+        int cols = 4;
+        int rows = 3;
+        pieces = [[NSMutableArray alloc] initWithCapacity:cols*rows];
+        [self loadLevelSprites:@"4x3"];
+        [self loadPieces:@"levelEasy" withCols:cols andRols:rows];
+        [self scheduleOnce:@selector(enableTouch:) delay:0.5];
+    }
+    
+    
+    if(selectedLevel == 2)
+    {
+        int cols = 6;
+        int rows = 4;
+        pieces = [[NSMutableArray alloc] initWithCapacity:cols*rows];
+        [self loadLevelSprites:@"6x4"];
+        [self loadPieces:@"levelNormal" withCols:cols andRols:rows];
+        [self scheduleOnce:@selector(enableTouch:) delay:0.5];
+    }
+    
+    
+    if(selectedLevel == 3)
+    {
+        int cols = 8;
+        int rows = 6;
+        pieces = [[NSMutableArray alloc] initWithCapacity:cols*rows];
+        [self loadLevelSprites:@"8x6"];
+        [self loadPieces:@"levelHard" withCols:cols andRols:rows];
+        [self scheduleOnce:@selector(enableTouch:) delay:0.5];
+    }
+
 }
+
 
 -(void)onExit{
     [super onExit];
@@ -137,7 +169,36 @@
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pieces_4x3.png"];
     [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"pieces_4x3_bevel.plist"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pieces_4x3_bevel.png"];
+    
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"pieces_6x4.plist"];
+    [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pieces_6x4.png"];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"pieces_6x4_bevel.plist"];
+    [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pieces_6x4_bevel.png"];
+
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"pieces_8x6.plist"];
+    [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pieces_8x6.png"];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"pieces_8x6_bevel.plist"];
+    [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pieces_8x6_bevel.png"];
+
 }
 
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft
+        || interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
 
 @end

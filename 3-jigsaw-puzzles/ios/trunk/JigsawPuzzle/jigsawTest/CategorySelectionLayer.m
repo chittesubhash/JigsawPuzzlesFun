@@ -13,59 +13,55 @@
 #import "ImageHelper.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AudioHelper.h"
+#import "HomeScreenLayer.h"
 
 @implementation CategorySelectionLayer
+@synthesize selectedImageName;
 
-+(CCScene *)sceneWithParameter:(int)levelNo
++(CCScene *)sceneParameter:(NSString *)imageStr
 {
 	CCScene *scene = [CCScene node];
 	CategorySelectionLayer *layer = [CategorySelectionLayer node];
+    [layer initWithSelectedImage:imageStr];
 	[scene addChild: layer];
-    [layer initWithSelectedLevel:levelNo];
     
     return scene;
 }
 
-- (void)initWithSelectedLevel:(int)levelSelected
+- (void)initWithSelectedImage:(NSString *)imageSelected
 {
-    selectedLevel = levelSelected;
+    NSLog(@"IMAGE NAME 11:: %@", imageSelected);
+    if(imageSelected.length != 0)
+        [[NSUserDefaults standardUserDefaults] setValue:imageSelected forKey:@"TEMPIMAGE"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     
-    NSLog(@"SELECTED LEVEL:: %d", selectedLevel);
+    self.selectedImageName = [NSString stringWithFormat:@"%@", imageSelected];
 }
 
 
 -(void) onEnter{
 	[super onEnter];
-    
-    cameraSelected = NO;
-    
+        
     screenSize = [[CCDirector sharedDirector] winSize];
     [CCSpriteFrameCache sharedSpriteFrameCache];
     
-    [self initBackground:selectedLevel];
+    [self initBackground];
 }
 
 
--(void) initBackground:(int)forLevel{
-    
-    NSLog(@"FOR LEVEL:: %d", forLevel);
+-(void) initBackground{
     
 	CCSprite *background;
-    background = [CCSprite spriteWithFile:@"categorySelectionBg.png"];
+    background = [CCSprite spriteWithFile:@"jigsaw_playing_bg.png"];
     
-//    if(forLevel == 2)
+//    if(IS_IPHONE_5)
 //    {
-//        background = [CCSprite spriteWithFile:@"background-puzzle-selection_5@2x.png"];
+//        background = [CCSprite spriteWithFile:@"background-puzzle-selection_5.png"];
 //    }
-    
-    if(IS_IPHONE_5)
-    {
-        background = [CCSprite spriteWithFile:@"background-puzzle-selection_5.png"];
-    }
-    if(IS_IPHONE_4)
-    {
-        background = [CCSprite spriteWithFile:@"background-puzzle-selection_5.png"];
-    }
+//    if(IS_IPHONE_4)
+//    {
+//        background = [CCSprite spriteWithFile:@"background-puzzle-selection_5.png"];
+//    }
     
     background.anchorPoint = ccp(0, 0);
     
@@ -73,511 +69,177 @@
 }
 
 
--(void)onEnterTransitionDidFinish{
+-(void)onEnterTransitionDidFinish{    
     
-    categoryItems = [[NSArray alloc] initWithObjects:@"Animals", @"Cars", @"Flowers", @"Buildings", nil];
+    level1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    level1.frame = CGRectMake(648/2, 620, 125, 44);
+    level1.tag = 1;
+    level1.layer.cornerRadius = 2.0f;
+    level1.layer.borderWidth = 2.0f;
+    level1.layer.masksToBounds = YES;
+    level1.titleLabel.font = [UIFont fontWithName:@"Marker Felt" size:22.0];
+    [level1 setTitle:@"12 pieces" forState:UIControlStateNormal];
+    [level1 setBackgroundColor:[UIColor clearColor]];
+    [level1 addTarget:self action:@selector(level1Selected:) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:level1];
+    [[[CCDirector sharedDirector] view] bringSubviewToFront:level1];
     
-    selectcategoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(372, 208, 300, 54)];
-    selectcategoryLabel.backgroundColor = [UIColor clearColor];
-    selectcategoryLabel.text = @"SELECT CATEGORY";
-    selectcategoryLabel.textAlignment = NSTextAlignmentCenter;
-    selectcategoryLabel.textColor = [UIColor orangeColor];
-    selectcategoryLabel.font = [UIFont boldSystemFontOfSize:30.0];
-    [[[CCDirector sharedDirector] view] addSubview:selectcategoryLabel];
+    level2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    level2.frame = CGRectMake(648/2+125, 620, 125, 44);
+    level2.tag = 2;
+    level2.layer.cornerRadius = 2.0f;
+    level2.layer.borderWidth = 2.0f;
+    level2.layer.masksToBounds = YES;
+    level2.titleLabel.font = [UIFont fontWithName:@"Marker Felt" size:22.0];
+    [level2 setTitle:@"24 pieces" forState:UIControlStateNormal];
+    [level2 setBackgroundColor:[UIColor clearColor]];
+    [level2 addTarget:self action:@selector(level2Selected:) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:level2];
+    [[[CCDirector sharedDirector] view] bringSubviewToFront:level2];
+    
+    level3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    level3.frame = CGRectMake(648/2+(2*125), 620, 125, 44);
+    level3.tag = 3;
+    level3.layer.cornerRadius = 2.0f;
+    level3.layer.borderWidth = 2.0f;
+    level3.layer.masksToBounds = YES;
+    level3.titleLabel.font = [UIFont fontWithName:@"Marker Felt" size:22.0];
+    [level3 setTitle:@"48 pieces" forState:UIControlStateNormal];
+    [level3 setBackgroundColor:[UIColor clearColor]];
+    [level3 addTarget:self action:@selector(level3Selected:) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:level3];
+    [[[CCDirector sharedDirector] view] bringSubviewToFront:level3];
     
     
-    categoryTable = [[UITableView alloc] initWithFrame:CGRectMake(372, 262, 300, 432) style:UITableViewStylePlain];
-    categoryTable.backgroundColor = [UIColor clearColor];
-    categoryTable.delegate = self;
-    categoryTable.dataSource = self;
-    categoryTable.opaque = YES;
-    [[[CCDirector sharedDirector] view] addSubview:categoryTable];
-    
-    cameraButton.opacity = 100.0f;
-    
-    if(IS_IPHONE_4 || IS_IPHONE_5)
+    CCSprite *itemSprite;
+    if(IS_IPHONE_5 || IS_IPHONE_4)
     {
-        selectcategoryLabel.frame = CGRectMake(140, 48, 200, 44);
-        categoryTable.frame = CGRectMake(140, 92, 200, 200);
-        
-        selectcategoryLabel.font = [UIFont boldSystemFontOfSize:16.0];
+        itemSprite = [[CCSprite alloc] initWithFile:@"back-button_iPhone.png"];
     }
+    else
+    {
+        itemSprite = [[CCSprite alloc] initWithFile:@"back-button.png"];
+    }
+    
+    CCMenuItemSprite *backButton = [CCMenuItemSprite itemWithNormalSprite:itemSprite selectedSprite:nil
+                                                                   target:self
+                                                                 selector:@selector(onClickBack)];
+    
+    CCMenu *backMenu = [CCMenu menuWithItems:backButton,nil];
+    [backMenu setPosition:ccp(backButton.contentSize.width/2,
+                              screenSize.height - (backButton.contentSize.height/2))];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        [backMenu setPosition:ccp(backButton.contentSize.width/2,
+                                  screenSize.height - backButton.contentSize.height/2 )];
+    }
+    
+    [self addChild:backMenu z:80 tag:70];
+
+    
+    NSString *tempImage = self.selectedImageName;
+    
+    if(self.selectedImageName.length == 0)
+    {
+        tempImage = [[NSUserDefaults standardUserDefaults] valueForKey:@"TEMPIMAGE"];
+    }
+    
+    NSLog(@"tempImage:: %@", tempImage);
+
+    
+    CCSprite *imageSprite = [CCSprite spriteWithFile:tempImage];
+    [imageSprite setPosition:ccp(165.5, 180)];
+    imageSprite.anchorPoint = ccp(0, 0);
+    [self addChild:imageSprite];
+    
     
     [[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
     [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:NO];
     
-    [self initAlbumButton];
+    [[[GameManager sharedGameManager] bannerView] setHidden:NO];
 
-    [self initCameraButton];
 }
 
--(void) initAlbumButton
+- (void)onClickBack
 {
-    CCSprite *normal = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
-    CCSprite *selected = [CCSprite spriteWithFile:@"albumBtn.jpeg"];
+    [AudioHelper playBack];
+
+    [level1 removeFromSuperview];
+    [level2 removeFromSuperview];
+    [level3 removeFromSuperview];
     
-    albumButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(showPhotoLibrary)];
-    albumButton.position = ccp(screenSize.height-50, screenSize.height-50);
-    albumButton.isEnabled = YES;
-    
-    
-    
-    CCMenu *menu = [CCMenu menuWithItems:albumButton, nil];
-    [menu alignItemsHorizontallyWithPadding:40];
-    [menu setPosition: ccp(40, 640)];
-    
-    if(IS_IPHONE_5 || IS_IPHONE_4)
-    {
-        [menu setPosition: ccp(60, 260)];
-    }
-    
-    [self addChild:menu z:7 tag:7];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeBL transitionWithDuration:0.5 scene:[HomeScreenLayer scene]]];
 }
 
 
--(void) initCameraButton{
-    
-    CCSprite *normal = [CCSprite spriteWithFile:@"camera.png"];
-    CCSprite *selected = [CCSprite spriteWithFile:@"camera.png"];
-    
-    cameraButton = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected target:self selector:@selector(startCamera)];
-    cameraButton.position = ccp(screenSize.width-60, screenSize.height-50);
-    cameraButton.isEnabled = YES;
-    
-    CCMenu *menu = [CCMenu menuWithItems:cameraButton, nil];
-    [menu alignItemsHorizontallyWithPadding:40];
-    [menu setPosition: ccp(screenSize.width - 140, 640)];
-    
-    
-    if(IS_IPHONE_5 || IS_IPHONE_4)
-    {
-        [menu setPosition: ccp(screenSize.width - 70, 260)];
-    }
-    
-    [self addChild:menu z:7 tag:7];
-}
-
--(void) startCamera
+- (void)level1Selected:(UIButton *)sender
 {
-    [CCAnimationCache purgeSharedAnimationCache];
-    [[CCDirector sharedDirector] purgeCachedData];
-    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
-    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
+    NSLog(@"TAG VALUE:: %d", sender.tag);
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [paths stringByAppendingPathComponent:@"image.png"];
-    [fileManager removeItemAtPath:filePath error:NULL];
+    NSString *tempImage = self.selectedImageName;
     
-	if (_picker) {
-		[_picker dismissViewControllerAnimated:YES completion:nil];
-		[_picker.view removeFromSuperview];
-		[_picker release];
-	}
-	if (_popover) {
-		[_popover dismissPopoverAnimated:NO];
-		[_popover release];
-	}
-    CCDirector * director =[CCDirector sharedDirector];
-	[director stopAnimation];
-	_picker = [[[UIImagePickerController alloc] init] retain];
-	_picker.delegate = self;
-    _picker.allowsEditing = NO;
-    
-    
-    if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ])
+    if(self.selectedImageName.length == 0)
     {
-        // do something
-        _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        
-        [director presentViewController:_picker animated:YES completion:nil];
-    }
-    else
-    {
-        CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
-        _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-            _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
-            _popover.delegate = self;
-            r.origin = [director convertToGL:r.origin];
-            [_popover presentPopoverFromRect:r inView:[director view]
-                    permittedArrowDirections:0 animated:YES];
-            _popover.popoverContentSize = CGSizeMake(320, screenSize.width);
-            
-        }else{
-            
-            [director presentViewController:_picker animated:YES completion:nil];
-        }
+        tempImage = [[NSUserDefaults standardUserDefaults] valueForKey:@"TEMPIMAGE"];
     }
     
-    cameraSelected = YES;
+    NSLog(@"tempImage:: %@", tempImage);
+
+    [level1 removeFromSuperview];
+    [level2 removeFromSuperview];
+    [level3 removeFromSuperview];
+    
+     [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[LevelEasyLayer sceneWithParameter:tempImage withLevel:1]]];
+    
 }
 
-
-//+ (BOOL)isCameraDeviceAvailable:(UIImagePickerControllerCameraDevice)cameraDevice
-//{
-//    return UIImagePickerControllerSourceTypeCamera;
-//}
-
--(void) showPhotoLibrary
+- (void)level2Selected:(UIButton *)sender
 {
-    [CCAnimationCache purgeSharedAnimationCache];
-    [[CCDirector sharedDirector] purgeCachedData];
-    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
-    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
+    NSLog(@"TAG VALUE:: %d", sender.tag);
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [paths stringByAppendingPathComponent:@"image.png"];
-    [fileManager removeItemAtPath:filePath error:NULL];
-    
-	if (_picker) {
-		[_picker dismissViewControllerAnimated:YES completion:nil];
-		[_picker.view removeFromSuperview];
-		[_picker release];
-	}
-	if (_popover) {
-		[_popover dismissPopoverAnimated:NO];
-		[_popover release];
-	}
-    CCDirector * director =[CCDirector sharedDirector];
-	[director stopAnimation];
-	_picker = [[[UIImagePickerController alloc] init] retain];
-	_picker.delegate = self;
-	_picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    _picker.allowsEditing = NO;
-    CGRect r = CGRectMake(screenSize.width/2, 0, 10, 10);
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-        _popover = [[[UIPopoverController alloc] initWithContentViewController:_picker] retain];
-        _popover.delegate = self;
-        r.origin = [director convertToGL:r.origin];
-        [_popover presentPopoverFromRect:r inView:[director view]
-                permittedArrowDirections:0 animated:YES];
-        _popover.popoverContentSize = CGSizeMake(320, screenSize.width);
-        
-    }else{
-        
-        [director presentViewController:_picker animated:YES completion:nil];
-    }
-}
 
-#pragma mark - ImagePickerDelegateMethods
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [_picker dismissViewControllerAnimated:YES completion:nil];
-	[_picker.view removeFromSuperview];
-	[_picker release];
-	_picker = nil;
-	[_popover dismissPopoverAnimated:NO];
-	[_popover release];
-    _popover = nil;
-	[[CCDirector sharedDirector] startAnimation];
-}
-
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    [self imagePickerControllerDidCancel:nil];
-}
-
-- (void) imagePickerController: (UIImagePickerController *) picker didFinishPickingMediaWithInfo: (NSDictionary *) info {
+    NSString *tempImage = self.selectedImageName;
     
-    [selectcategoryLabel removeFromSuperview];
-    [categoryTable removeFromSuperview];
-    
-    CGSize imageSize = CGSizeMake(693, 480);
-    
-    if([GameHelper isRetinaIpad]){
-        imageSize.width = imageSize.width * 2;
-        imageSize.height = imageSize.height * 2;
-    }
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if(self.selectedImageName.length == 0)
     {
-        if(IS_IPHONE_5)
-        {
-            imageSize.width = 670;
-            imageSize.height = 464;
-        }
-        else if ([[CCDirector sharedDirector] enableRetinaDisplay:YES])
-        {
-            imageSize.width = 648;
-            imageSize.height = 448;
-        }
-        else
-        {
-            imageSize.width = 324;
-            imageSize.height = 224;
-        }
-        
-        if(IS_IPHONE_4)
-        {
-            imageSize.width = 670;
-            imageSize.height = 464;
-        }
+        tempImage = [[NSUserDefaults standardUserDefaults] valueForKey:@"TEMPIMAGE"];
     }
     
+    NSLog(@"tempImage:: %@", tempImage);
+
+    [level1 removeFromSuperview];
+    [level2 removeFromSuperview];
+    [level3 removeFromSuperview];
     
-    UIImage *originalImage = nil;
-    originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
-    originalImage = [ImageHelper cropImage:originalImage toSize:imageSize];
-    [_picker dismissViewControllerAnimated:YES completion:nil];
-    [picker release];
-    [_popover dismissPopoverAnimated:YES];
-	[[CCDirector sharedDirector] startAnimation];
-    
-    if(cameraSelected == YES)
-    {
-        UIImageWriteToSavedPhotosAlbum(originalImage,
-                                       self, // send the message to 'self' when calling the callback
-                                       @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion,
-                                       NULL);
-    }
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"image.png"];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])	//Does directory exist?
-	{
-        [self removeImage:filePath];
-	}
-    
-    
-    NSData *pngData = nil;
-    pngData = UIImagePNGRepresentation(originalImage);
-    NSArray *paths1 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath1 = [paths1 objectAtIndex:0]; //Get the docs directory
-    NSString *filePath1 = [documentsPath1 stringByAppendingPathComponent:@"image.png"]; //Add the file name
-    [pngData writeToFile:filePath1 atomically:YES]; //Write the file
-    
-    NSLog(@"IMAGES filePath:: %@", filePath1);
-    [[GameManager sharedGameManager] runSceneWithID:kLevelEasy withParameter:filePath1];
+     [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[LevelEasyLayer sceneWithParameter:tempImage withLevel:2]]];
     
 }
 
-- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
-    if (error) {
-        // Do anything needed to handle the error or display it to the user
-    } else {
-        // .... do anything you want here to handle
-        // .... when the image has been saved in the photo album
-    }
-}
-
--(void)removeImage:(NSString *)fileName
+- (void)level3Selected:(UIButton *)sender
 {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [paths stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", fileName]];
-    [fileManager removeItemAtPath:filePath error:NULL];
-}
-
-#pragma mark - Table View
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(IS_IPHONE_4 || IS_IPHONE_5)
-        return 34;
-    else
-        return 54;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    UIView *view = [[UIView alloc] init];
-    tableView.tableFooterView = view;
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return categoryItems.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
+    NSLog(@"TAG VALUE:: %d", sender.tag);
     
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.backgroundColor = [UIColor clearColor];
-    }
+
+    NSString *tempImage = self.selectedImageName;
     
-    NSDate *object = categoryItems[indexPath.row];
-    cell.textLabel.text = [object description];
-    cell.textLabel.textColor = [UIColor cyanColor];
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:24.0];
-    
-    if(IS_IPHONE_5 || IS_IPHONE_4)
+    if(self.selectedImageName.length == 0)
     {
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        tempImage = [[NSUserDefaults standardUserDefaults] valueForKey:@"TEMPIMAGE"];
     }
     
-    return cell;
-}
+    NSLog(@"tempImage:: %@", tempImage);
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(indexPath.row == 0)
-        [self animalPuzzles];
+    [level1 removeFromSuperview];
+    [level2 removeFromSuperview];
+    [level3 removeFromSuperview];
     
-    if(indexPath.row == 1)
-        [self carPuzzles];
-    
-    if(indexPath.row == 2)
-        [self flowerPuzzles];
-    
-    if(indexPath.row == 3)
-        [self buildingPuzzles];
+     [[CCDirector sharedDirector] runWithScene:[CCTransitionMoveInL transitionWithDuration:0.5 scene:[LevelEasyLayer sceneWithParameter:tempImage withLevel:3]]];
     
 }
-
-- (void)animalPuzzles {
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
-    [infiniteScrollPicker setUserInteractionEnabled:YES];
-    
-    [infiniteScrollPicker setAnimalsImagesArray];
-    [infiniteScrollPicker setHeightOffset:20];
-    [infiniteScrollPicker setPositionRatio:2];
-    [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [[[CCDirector sharedDirector] view] addSubview:infiniteScrollPicker];
-    
-    
-    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeButton.frame = CGRectMake(0, 0, 64, 64);
-    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
-    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
-    [[[CCDirector sharedDirector] view] addSubview:closeButton];
-    
-    if(IS_IPHONE_4 || IS_IPHONE_5)
-    {
-        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
-    }
-}
-
-- (void)carPuzzles {
-    
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
-    [infiniteScrollPicker setUserInteractionEnabled:YES];
-    
-    [infiniteScrollPicker setCarsImagesArray];
-    [infiniteScrollPicker setHeightOffset:20];
-    [infiniteScrollPicker setPositionRatio:2];
-    [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [[[CCDirector sharedDirector]view] addSubview:infiniteScrollPicker];
-    
-    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeButton.frame = CGRectMake(0, 0, 64, 64);
-    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
-    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
-    [[[CCDirector sharedDirector] view] addSubview:closeButton];
-
-    
-    if(IS_IPHONE_4 || IS_IPHONE_5)
-    {
-        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
-    }
-}
-
-
-- (void)flowerPuzzles {
-    
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
-    [infiniteScrollPicker setUserInteractionEnabled:YES];
-    
-    [infiniteScrollPicker setFlowersImagesArray];
-    [infiniteScrollPicker setHeightOffset:20];
-    [infiniteScrollPicker setPositionRatio:2];
-    [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [[[CCDirector sharedDirector]view] addSubview:infiniteScrollPicker];
-    
-    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeButton.frame = CGRectMake(0, 0, 64, 64);
-    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
-    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
-    [[[CCDirector sharedDirector] view] addSubview:closeButton];
-
-    
-    if(IS_IPHONE_4 || IS_IPHONE_5)
-    {
-        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
-    }
-
-}
-
-
-- (void)buildingPuzzles {
-    
-    infiniteScrollPicker = [[InfiniteScrollPicker alloc] initWithFrame:CGRectMake(0, -200, screenSize.width, screenSize.height) WithDelegate:self];
-    [infiniteScrollPicker setUserInteractionEnabled:YES];
-    
-    [infiniteScrollPicker setBuildingsImagesArray];
-    [infiniteScrollPicker setHeightOffset:20];
-    [infiniteScrollPicker setPositionRatio:2];
-    [infiniteScrollPicker setAlphaOfobjs:0.7];
-    [[[CCDirector sharedDirector]view] addSubview:infiniteScrollPicker];
-    
-    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeButton.frame = CGRectMake(0, 0, 64, 64);
-    [closeButton setImage:[UIImage imageNamed:@"close_iPhone.png"] forState:UIControlStateNormal];
-    [closeButton addTarget:self action:@selector(closeScrollView) forControlEvents:UIControlEventTouchUpInside];
-    [[[CCDirector sharedDirector] view] addSubview:closeButton];
-
-    
-    if(IS_IPHONE_4 || IS_IPHONE_5)
-    {
-        infiniteScrollPicker.frame = CGRectMake(0, -50, screenSize.width, screenSize.height);
-    }
-}
-
-- (void)closeScrollView
-{
-    [closeButton removeFromSuperview];
-    [infiniteScrollPicker removeFromSuperview];
-}
-
-- (void)btnClicked:(UIButton *)sender {
-    NSLog(@"**CustomScrollViewBtnClicked = %d", sender.tag);
-    
-    [closeButton removeFromSuperview];
-    [categoryTable removeFromSuperview];
-    [selectcategoryLabel removeFromSuperview];
-    [infiniteScrollPicker removeFromSuperview];
-    
-    int pos = sender.tag % 6;
-    NSLog(@"**Pos = %d", pos);
-    
-    NSString *buttonStatus = (__bridge NSString *)sender.observationInfo;
-    NSLog(@"****ButtonStatus = %@", buttonStatus);
-    
-    //    NSString *letter = [objectNames objectAtIndex:pos];
-    
-    NSString *imageName = @"";
-    if(IS_IPHONE_4 || IS_IPHONE_5)
-    {
-        imageName =  [NSString stringWithFormat:@"Letter%d_iPhone.png", pos + 1];
-    }
-    else
-    {
-        imageName =  [NSString stringWithFormat:@"Letter%d.png", pos + 1];
-    }
-    NSLog(@"**imageName = %@", imageName);
-
-    [[GameManager sharedGameManager] runSceneWithID:kLevelEasy withParameter:imageName];
-    
-    
-    //    if ([buttonStatus isEqualToString:@"UNLOCKED"]) {
-    //        [[GameManager sharedGameManager] runSceneWithID:kLevelEasy withParameter:imageName];
-    //    }
-    //    else {
-    //        [self startViewAnimation:NO];
-    //    }
-}
-
 
 
 #pragma mark - OnTouchExplosion
--(void) createExplosionAtPosition:(CGPoint)point{
+-(void) createExplosionAtPosition:(CGPoint)point
+{
     if(explosion != nil){
         [explosion resetSystem];
         [self removeChild:explosion cleanup:NO];
@@ -604,26 +266,32 @@
 }
 
 
-- (BOOL) shouldAutorotate {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft
+        || interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        return YES;
+    }
     return NO;
 }
 
--(NSUInteger)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskLandscape;
+- (BOOL)shouldAutorotate {
+    return NO;
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
 
 #pragma mark - onexit
 
 -(void) onExit{
     [super onExit];
-    [categoryTable removeFromSuperview];
     
-    [levelMenu setEnabled:NO];
-    [navArrowMenu setEnabled:NO];
+    [[[GameManager sharedGameManager] bannerView] removeFromSuperview];
+    
     [[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
-    [self removeChild:levelMenu cleanup:YES];
-    [self removeChild:navArrowMenu cleanup:YES];
     
     [self removeAllChildrenWithCleanup:YES];
     [self removeFromParentAndCleanup:YES];
@@ -632,11 +300,6 @@
 
 -(void)dealloc {
     [super dealloc];
-    
-    [CCAnimationCache purgeSharedAnimationCache];
-    [[CCDirector sharedDirector] purgeCachedData];
-    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
-    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
 }
 
 

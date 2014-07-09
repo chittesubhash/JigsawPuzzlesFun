@@ -11,16 +11,17 @@
 #import "LevelBaseLayer.h"
 #import "cocos2d.h"
 #import "Piece.h"
+#import "CategorySelectionLayer.h"
 
-@interface LevelEasyLayer : LevelBaseLayer  <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate>
+@interface LevelEasyLayer : LevelBaseLayer
 {
-    UIImagePickerController *_picker;
-    UIPopoverController *_popover;
-    
     UIWindow *window;
 	NSString *newImage;
+    
+    int selectedLevel;
 }
-+(CCScene *)sceneWithParameter:(NSString *)imageStr;
-- (void)initWithSelectedImage:(NSString *)imageSelected;
-@property(nonatomic, strong) NSString *selectedImageName;
++(CCScene *)sceneWithParameter:(NSString *)imageStr withLevel:(int)levelNo;
+- (void)initWithSelectedImage:(NSString *)imageSelected andLevel:(int)levelNo;
+@property(nonatomic, assign) int selectedLevel;
+
 @end

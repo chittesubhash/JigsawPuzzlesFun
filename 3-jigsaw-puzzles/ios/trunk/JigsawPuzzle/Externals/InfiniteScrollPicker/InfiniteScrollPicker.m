@@ -65,6 +65,8 @@
     self.showsHorizontalScrollIndicator = NO;
     self.showsVerticalScrollIndicator = NO;
     [self setUserInteractionEnabled:YES];
+    
+    ScrollImageView *temp = nil;
     if (imageAry.count > 0)
     {
         // Init 5 set of images, 3 for user selection, 2 for
@@ -74,7 +76,7 @@
             size = ((UIImage *)[imageAry objectAtIndex:pos]).size;
             _itemSize = size;
             
-            ScrollImageView *temp = [[ScrollImageView alloc] initWithFrame:CGRectMake(i * _itemSize.width, self.frame.size.height - _itemSize.height-20, _itemSize.width, _itemSize.height) WithImageSize:_itemSize];
+            temp = [[ScrollImageView alloc] initWithFrame:CGRectMake(i * _itemSize.width, self.frame.size.height - _itemSize.height-20, _itemSize.width, _itemSize.height) WithImageSize:_itemSize];
             
             temp.btn = [UIButton buttonWithType:UIButtonTypeCustom];
             temp.btn.frame = temp.frame;
@@ -87,18 +89,22 @@
             [imageStore addObject:temp];
             [self addSubview:temp];
             [self addSubview:temp.btn];
-            if ([self isNeedLock:temp.image]) {
-                temp.btn.observationInfo = (__bridge void *)(@"LOCKED");
-                temp.lockImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"lockBig.png"]];
-                temp.lockImageView.frame = CGRectMake(temp.frame.origin.x + 200, temp.frame.origin.y, temp.lockImageView.frame.size.width, temp.lockImageView.frame.size.height);
-                [self addSubview:temp.lockImageView];
-            }
-            else {
-                temp.btn.observationInfo = (__bridge void *)(@"UNLOCKED");
-            }
+            
+//            if ([self isNeedLock:temp.image]) {
+//                temp.btn.observationInfo = (__bridge void *)(@"LOCKED");
+//                temp.lockImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"lockBig.png"]];
+//                temp.lockImageView.frame = CGRectMake(temp.frame.origin.x + 200, temp.frame.origin.y, temp.lockImageView.frame.size.width, temp.lockImageView.frame.size.height);
+//                [self addSubview:temp.lockImageView];
+//            }
+//            else {
+//                temp.btn.observationInfo = (__bridge void *)(@"UNLOCKED");
+//            }
             
         }
         self.contentSize = CGSizeMake(imageAry.count * 5 * _itemSize.width, self.frame.size.height);
+        
+        
+        NSLog(@"TAG VAL:: %d", temp.btn.tag);
         
         float viewMiddle = imageAry.count * 2 * _itemSize.width - self.frame.size.width/2 + _itemSize.width + (_itemSize.width * index);
         [self setContentOffset:CGPointMake(viewMiddle, 0)];
@@ -113,28 +119,28 @@
     }
 }
 
-- (BOOL)isNeedLock:(UIImage *)image {
-    
-    if (isFullVersion)
-        return NO;
-    for (int i = 1; i < 6; i++) {
-        if ([image isEqual:[UIImage imageNamed:[NSString stringWithFormat:@"Thumbnail_%d.png", i]]])
-            return NO;
-    }
-    return YES;
-}
-
-- (void)removeLocks {
-    
-    NSLog(@"**RemoveLocks***");
-    for (ScrollImageView *imageView in imageStore) {
-        NSLog(@"**LockeRemoving***");
-        imageView.btn.observationInfo = (__bridge void *)(@"UNLOCKED");
-        [imageView.lockImageView removeFromSuperview];
-        [imageView.lockImageView release];
-        imageView.lockImageView = nil;
-    }
-}
+//- (BOOL)isNeedLock:(UIImage *)image {
+//    
+//    if (isFullVersion)
+//        return NO;
+//    for (int i = 1; i < 6; i++) {
+//        if ([image isEqual:[UIImage imageNamed:[NSString stringWithFormat:@"Thumbnail_%d.png", i]]])
+//            return NO;
+//    }
+//    return YES;
+//}
+//
+//- (void)removeLocks {
+//    
+//    NSLog(@"**RemoveLocks***");
+//    for (ScrollImageView *imageView in imageStore) {
+//        NSLog(@"**LockeRemoving***");
+//        imageView.btn.observationInfo = (__bridge void *)(@"UNLOCKED");
+//        [imageView.lockImageView removeFromSuperview];
+//        [imageView.lockImageView release];
+//        imageView.lockImageView = nil;
+//    }
+//}
 
 
 #pragma mark - Initializing Images Array
@@ -161,6 +167,26 @@
     [self initInfiniteScrollView];
 }
 
+- (void)setBuildingsImagesArray
+{
+    if(IS_IPHONE_4 || IS_IPHONE_5)
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_iPhone%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
+    }
+    else
+    {
+        for (int i = 1; i <= 6; i++) {
+            NSString *thumbImgName = [NSString stringWithFormat:@"Thumbnail_%d.png", i];
+            UIImage *image = [UIImage imageNamed:thumbImgName];
+            [imageAry addObject:image];
+        }
+    }
+    [self initInfiniteScrollView];
+}
 
 - (void)setCarsImagesArray
 {
@@ -184,7 +210,7 @@
 }
 
 
-- (void)setFlowersImagesArray
+- (void)setSportsImagesArray
 {
     if(IS_IPHONE_4 || IS_IPHONE_5)
     {
@@ -206,7 +232,7 @@
 }
 
 
-- (void)setBuildingsImagesArray
+- (void)setPersonalitiesImagesArray
 {
     if(IS_IPHONE_4 || IS_IPHONE_5)
     {
@@ -226,7 +252,6 @@
     }
     [self initInfiniteScrollView];
 }
-
 
 - (void)setItemSize:(CGSize)itemSize
 {
@@ -255,6 +280,11 @@
         
         [self reloadView:self.contentOffset.x];
     }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidEndScrollingAnimation");
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -303,6 +333,7 @@
                 imageView.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
             }
         }
+        
     }
     
     for (int i = 0; i < imageStore.count; i++)

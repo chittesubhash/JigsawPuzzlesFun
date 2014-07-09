@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Piece.h"
+#import "CategorySelectionLayer.h"
+
 @interface LevelBaseLayer : CCLayer {
     CGSize screenSize;
     NSMutableArray* pieces;
@@ -11,6 +13,9 @@
     CCSpriteFrameCache* sceneSpriteBatchNode;
     CCSpriteFrameCache* piecesSpriteBatchNode;
     CCSpriteFrameCache* bevelSpriteBatchNode;
+    
+    UISwitch *switchControl;
+    UILabel *hintLabel;
 }
 -(void) enableTouch:(ccTime)dt;
 -(BOOL) isPieceInRightPlace:(Piece*)piece;

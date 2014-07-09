@@ -12,11 +12,7 @@
 @interface AudioHelper : NSObject {
     
 }
-+(void) playOptions;
 +(void) playStart;
-+(void) playEasy;
-+(void) playNormal;
-+(void) playHard;
 +(void) playBack;
 +(void) playNewGame;
 +(void) playYouWin;

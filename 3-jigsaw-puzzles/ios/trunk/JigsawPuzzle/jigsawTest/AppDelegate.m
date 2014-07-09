@@ -108,4 +108,22 @@
 	[[CCDirector sharedDirector] purgeCachedData];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft
+        || interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
+
 @end

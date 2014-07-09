@@ -11,49 +11,33 @@
 
 @implementation AudioHelper
 
-+(void) playOptions{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"Opcoes.mp3" : @"Options.mp3";
-    [[GameManager sharedGameManager] playSoundEffect:sound];
-}
 +(void) playStart{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"Comecar.mp3" : @"Start.mp3";
-    [[GameManager sharedGameManager] playSoundEffect:sound];
-}
-+(void) playEasy{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"Facil.mp3" : @"Easy.mp3";
-    [[GameManager sharedGameManager] playSoundEffect:sound];
-}
-+(void) playNormal{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"Normal.mp3" : @"Normal_english.mp3";
-    [[GameManager sharedGameManager] playSoundEffect:sound];
-}
-+(void) playHard{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"Dificil.mp3" : @"Hard.mp3";
+    NSString* sound = @"Start.mp3";
     [[GameManager sharedGameManager] playSoundEffect:sound];
 }
 +(void) playBack{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"Voltar.mp3" : @"Back.mp3";
+    NSString* sound = @"Back.mp3";
     [[GameManager sharedGameManager] playSoundEffect:sound];
 }
 +(void) playNewGame{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"NovoJogo.mp3" : @"NewGame.mp3";
+    NSString* sound = @"NewGame.mp3";
     [[GameManager sharedGameManager] playSoundEffect:sound];
 }
 +(void) playYouWin{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"ParabensVamosJogarDeNovo.mp3" : @"CongratulationsLetsPlayAgain.mp3";
+    NSString* sound = @"CongratulationsLetsPlayAgain.mp3";
     [[GameManager sharedGameManager] playSoundEffect:sound];
 }
 +(void) playGreat{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"MuitoBom.mp3" : @"Great.mp3";
+    NSString* sound = @"Great.mp3";
     [[GameManager sharedGameManager] playSoundEffect:sound];
 }
 +(void) playCongratulations{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"Parabens.mp3" : @"Congratulations.mp3";
+    NSString* sound = @"Congratulations.mp3";
     [[GameManager sharedGameManager] playSoundEffect:sound];
     
 }
 +(void) playSelectPicture{
-    NSString* sound = [GameManager sharedGameManager].language == kPortuguese ? @"EscolhaUmaFoto.mp3" : @"SelectYourPicture.mp3";
+    NSString* sound = @"SelectYourPicture.mp3";
     [[GameManager sharedGameManager] playSoundEffect:sound];
 
 }

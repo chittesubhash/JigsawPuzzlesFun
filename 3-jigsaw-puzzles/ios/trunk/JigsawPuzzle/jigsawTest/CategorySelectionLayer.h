@@ -12,39 +12,23 @@
 #import <UIKit/UIKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "cocos2d.h"
-#import "PuzzleGrid.h"
-#import "InfiniteScrollPicker.h"
-#import "LevelEasyLayer.h"
 
-@interface CategorySelectionLayer : CCLayer <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, UITableViewDelegate, UITableViewDataSource>{
+@interface CategorySelectionLayer : CCLayer {
     CGSize screenSize;
-    PuzzleGrid* puzzleGrid;
-    UIImagePickerController *_picker;
-    UIPopoverController *_popover;
+
     UIWindow *window;
     
     CCParticleSystem *explosion;
-    CCMenu *navArrowMenu;
     CCMenu *levelMenu;
     
-    CCMenuItemSprite *cameraButton;
-    CCMenuItemSprite *albumButton;
+    UIButton *level1;
+    UIButton *level2;
+    UIButton *level3;
     
-    
-    NSArray *categoryItems;
-    UITableView *categoryTable;
-    UILabel *selectcategoryLabel;
-    
-    LevelEasyLayer *levelEasy;
-    InfiniteScrollPicker *infiniteScrollPicker;
-    
-    BOOL cameraSelected;
-    int selectedLevel;
-
-    UIButton *closeButton;
+    NSString *selectedImageName;
 }
 
-+(CCScene *)sceneWithParameter:(int)levelNo;
-
++(CCScene *)sceneParameter:(NSString *)imageStr;
+@property(nonatomic, retain) NSString *selectedImageName;
 
 @end

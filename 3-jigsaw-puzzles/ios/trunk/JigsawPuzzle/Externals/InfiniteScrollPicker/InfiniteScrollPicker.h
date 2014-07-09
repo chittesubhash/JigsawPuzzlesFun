@@ -51,9 +51,11 @@
 - (void)setSelectedItem:(int)index;
 
 - (void)setAnimalsImagesArray;
-- (void)setCarsImagesArray;
-- (void)setFlowersImagesArray;
 - (void)setBuildingsImagesArray;
+- (void)setCarsImagesArray;
+- (void)setSportsImagesArray;
+- (void)setPersonalitiesImagesArray;
+
 
 
 @end

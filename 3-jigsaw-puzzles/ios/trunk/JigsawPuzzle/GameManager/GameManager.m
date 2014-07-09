@@ -136,7 +136,7 @@ static GameManager* _sharedGameManager = nil;
 - (void)interstitialAdDidLoad:(ADInterstitialAd *)interstitialAd
 {
     NSLog(@"***interstitialAdDidLoad****");
-    [self RemoveAdds];
+//    [self RemoveAdds];
     _isInterstitialAdReady = YES;
 }
 
@@ -181,10 +181,10 @@ static GameManager* _sharedGameManager = nil;
             sceneToRun = [CCTransitionFade transitionWithDuration:1.0 scene:[HomeScreenLayer scene] ];
             break;
         case kCategorySelection:
-            sceneToRun = [CCTransitionFadeBL transitionWithDuration:1.0 scene:[CategorySelectionLayer sceneWithParameter:nil]];
+            sceneToRun = [CCTransitionFadeBL transitionWithDuration:1.0 scene:[CategorySelectionLayer sceneParameter:imageName]];
             break;
         case kLevelEasy:
-            sceneToRun = [CCTransitionFadeTR transitionWithDuration:1.0 scene:[LevelEasyLayer sceneWithParameter:imageName]];
+//            sceneToRun = [CCTransitionFadeTR transitionWithDuration:1.0 scene:[LevelEasyLayer sceneWithParameter:imageName]];
             break;
 //        case kLevelNormal:
 //            sceneToRun = [CCTransitionSlideInB transitionWithDuration:0.5 scene:[LevelNormalLayer scene]];

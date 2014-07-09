@@ -7,9 +7,15 @@
 //
 
 #import "CCLayer.h"
-#import "cocos2d.h"
 
-@interface HomeScreenLayer : CCLayer <UITableViewDelegate, UITableViewDataSource>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "cocos2d.h"
+#import "InfiniteScrollPicker.h"
+#import "LevelEasyLayer.h"
+
+@interface HomeScreenLayer : CCLayer <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate>
 {
     CGSize screenSize;
     CCParticleSystem* emitter;
@@ -17,9 +23,21 @@
     CCLabelBMFont* startLabel;
     CCMenu *optMenu;
 
-    NSArray *levels;
-    UILabel *selectLevel;
-    UITableView *levelSelectionTable;
+    BOOL cameraSelected;
+    CCMenuItemSprite *cameraButton;
+    CCMenuItemSprite *albumButton;
+    UIImagePickerController *_picker;
+    UIPopoverController *_popover;
+    
+    NSArray *categoryItems;
+    UILabel *selectcategoryLabel;
+    
+    LevelEasyLayer *levelEasy;
+    InfiniteScrollPicker *infiniteScrollPicker;
+    
+    int selectedLevel;
+    
+    UIButton *closeButton;
 }
 
 +(CCScene *)scene;

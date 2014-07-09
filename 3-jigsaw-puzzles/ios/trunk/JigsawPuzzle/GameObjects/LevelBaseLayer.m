@@ -74,17 +74,9 @@
 
 -(void) loadPuzzleImage:(NSString*)name {
     
-//    puzzleImage = [[CCSprite alloc] initWithFile:[GameHelper getResourcePathByName:name]];
-    
-    NSLog(@"NAME:: %@", name);
-    
     puzzleImage = [CCSprite spriteWithFile:name];
-
-//    puzzleImage = [[CCSprite alloc] initWithFile:[[NSBundle mainBundle] pathForResource:@"rabbit" ofType:@"jpg"]];
-    
-
+    puzzleImage.opacity = 40.0f;
     puzzleImage.anchorPoint = ccp(0,0);
-    puzzleImage.opacity = 40;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
         puzzleImage.position = ccp(screenSize.width - puzzleImage.contentSize.width - 41,
                                screenSize.height - puzzleImage.contentSize.height - 39);
@@ -93,8 +85,35 @@
                                    screenSize.height - puzzleImage.contentSize.height - 15);
     }
 	[self addChild: puzzleImage z:1 tag:10];
+    
+    
+    hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 145, 70, 40)];
+    hintLabel.backgroundColor = [UIColor clearColor];
+    hintLabel.text = @"Hint:";
+    hintLabel.textColor = [UIColor cyanColor];
+    hintLabel.font = [UIFont fontWithName:@"Marker Felt" size:32.0];
+    hintLabel.textAlignment = NSTextAlignmentLeft;
+    [[[CCDirector sharedDirector] view] addSubview:hintLabel];
+    
+    switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(95, 150, 51, 31)];
+    [switchControl setOn:YES animated:NO];
+    [switchControl addTarget:self action:@selector(hintOnOff:) forControlEvents:UIControlEventTouchUpInside];
+    [[[CCDirector sharedDirector] view] addSubview:switchControl];
+
 }
 
+
+- (void)hintOnOff:(UISwitch *)paramSender
+{
+    if(paramSender.on)
+    {
+        puzzleImage.opacity = 40.0f;
+    }
+    else
+    {
+        puzzleImage.opacity = 0.0f;
+    }
+}
 
 -(void) loadLevelSprites:(NSString*)dimension{
     NSString *plistPuzzle = [NSString stringWithFormat:@"pieces_%@.plist", dimension];
@@ -194,11 +213,8 @@
     congrats.anchorPoint = ccp(0,0);
 
     [self addChild:congrats z:10000 tag:4];
-    
-    
-   
-
 }
+
 
 -(void) loadPieces:(NSString*)level withCols:(int)cols andRols:(int)rows {
     float posInitialX = puzzleImage.position.x;
