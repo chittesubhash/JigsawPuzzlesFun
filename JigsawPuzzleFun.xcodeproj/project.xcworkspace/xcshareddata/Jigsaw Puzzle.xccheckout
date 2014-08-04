@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>EA70A197-9533-443F-A9F3-B258EC2644A6</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Jigsaw Puzzle</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3F414B9B-A0C1-4F04-B49A-B0A8D3E00F97</key>
+		<string>https://subversion.assembla.com/svn/bt-products/3-jigsaw-puzzles/ios/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>JigsawPuzzle/Jigsaw Puzzle.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3F414B9B-A0C1-4F04-B49A-B0A8D3E00F97</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>3F414B9B-A0C1-4F04-B49A-B0A8D3E00F97</key>
+		<string>https://subversion.assembla.com/svn/bt-products</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://subversion.assembla.com/svn/bt-products/3-jigsaw-puzzles/ios/trunk/JigsawPuzzle/Jigsaw%20Puzzle.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3F414B9B-A0C1-4F04-B49A-B0A8D3E00F97</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
+			<string>3-jigsaw-puzzles/ios/branches</string>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
+			<string>3-jigsaw-puzzles/ios/tags</string>
+			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
+			<string>3-jigsaw-puzzles/ios/trunk</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3F414B9B-A0C1-4F04-B49A-B0A8D3E00F97</string>
+			<key>IDESourceControlWCCName</key>
+			<string>JigsawWork</string>
+		</dict>
+	</array>
+</dict>
+</plist>
